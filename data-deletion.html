@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Deletion Instructions - FamilyTree Connect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        .steps {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .step {
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+
+        .contact-box {
+            background: #667eea;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .contact-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .contact-box a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .important {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Data Deletion Instructions</h1>
+        <p class="subtitle">FamilyTree Connect - User Data Deletion Policy</p>
+
+        <h2>What Data We Collect</h2>
+        <p>When you use FamilyTree Connect, we access the following data from Facebook:</p>
+        <ul>
+            <li>Your name</li>
+            <li>Profile picture</li>
+            <li>Email address (if provided)</li>
+            <li>Facebook User ID</li>
+            <li>Friends list (if you grant permission)</li>
+        </ul>
+
+        <h2>How Your Data is Stored</h2>
+        <p>FamilyTree Connect stores all your family tree data <strong>locally in your browser</strong> using localStorage. We do NOT store your data on any external servers.</p>
+
+        <div class="note">
+            <p><strong>Important:</strong> Because data is stored locally in your browser, you have full control and can delete it at any time.</p>
+        </div>
+
+        <h2>How to Delete Your Data</h2>
+
+        <div class="steps">
+            <h3 style="margin-bottom: 25px;">Option 1: Delete Within the App</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <strong>Log into FamilyTree Connect</strong>
+                <p>Visit the app and sign in with your Facebook account</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <strong>Click the Logout Button</strong>
+                <p>This will disconnect your Facebook account and clear your session</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <strong>Clear Browser Data (Optional)</strong>
+                <p>For complete deletion, clear your browser's localStorage:</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Chrome/Edge:</strong> Settings → Privacy → Clear browsing data → Check "Cookies and site data"</li>
+                    <li><strong>Firefox:</strong> Settings → Privacy → Clear Data → Check "Cookies and Site Data"</li>
+                    <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data → Remove</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="steps">
+            <h3 style="margin-bottom: 25px;">Option 2: Revoke App Access from Facebook</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <strong>Go to Facebook Settings</strong>
+                <p>Visit <a href="https://www.facebook.com/settings?tab=applications" target="_blank">facebook.com/settings?tab=applications</a></p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <strong>Find FamilyTree Connect</strong>
+                <p>Look for our app in the list of active apps</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <strong>Remove the App</strong>
+                <p>Click "Remove" to revoke all permissions and disconnect the app from your Facebook account</p>
+            </div>
+        </div>
+
+        <div class="steps">
+            <h3 style="margin-bottom: 25px;">Option 3: Request Manual Deletion</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <strong>Contact Us</strong>
+                <p>Send an email to our support team (see below)</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <strong>Provide Your Facebook User ID</strong>
+                <p>Include your Facebook User ID so we can verify and process your request</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <strong>Confirmation</strong>
+                <p>We will confirm deletion within <strong>7 business days</strong></p>
+            </div>
+        </div>
+
+        <h2>What Gets Deleted</h2>
+        <p>When you delete your data, the following information will be removed:</p>
+        <ul>
+            <li>All family tree data you created</li>
+            <li>Your Facebook login information</li>
+            <li>Any locally stored preferences</li>
+            <li>All connections to Facebook friends you added</li>
+        </ul>
+
+        <div class="note">
+            <p class="important">⚠️ Note:</p>
+            <p>Deletion is permanent and cannot be undone. Make sure to export your family tree data before deleting if you want to keep a copy.</p>
+        </div>
+
+        <h2>Timeline</h2>
+        <p>Data deletion is processed as follows:</p>
+        <ul>
+            <li><strong>Immediate:</strong> Local browser data deletion (Options 1 & 2)</li>
+            <li><strong>Within 7 days:</strong> Manual deletion requests (Option 3)</li>
+            <li><strong>Within 30 days:</strong> Any backup or cached data</li>
+        </ul>
+
+        <div class="contact-box">
+            <h3>Need Help?</h3>
+            <p>If you have questions or need assistance with data deletion:</p>
+            <p style="margin-top: 20px;">
+                📧 Email: <a href="mailto:support@familytreeconnect.com">support@familytreeconnect.com</a>
+            </p>
+            <p style="font-size: 0.9em; margin-top: 20px; opacity: 0.9;">
+                We typically respond within 24-48 hours
+            </p>
+        </div>
+
+        <hr style="margin: 40px 0; border: none; border-top: 1px solid #ddd;">
+
+        <p style="text-align: center; color: #666; font-size: 0.95em;">
+            Last Updated: February 8, 2026<br>
+            FamilyTree Connect - Protecting Your Privacy
+        </p>
+    </div>
+</body>
+</html>
