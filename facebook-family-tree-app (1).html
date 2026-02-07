@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyTree Connect - Build Your Family Tree</title>
+    <meta property="og:title" content="FamilyTree Connect">
+    <meta property="og:description" content="Build and share your family tree with Facebook friends">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=FamilyTree+Connect">
+    <meta property="og:url" content="https://yourapp.com">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .app-logo {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .login-container h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .fb-login-btn {
+            background: #1877f2;
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
+
+        .fb-login-btn:hover {
+            background: #0c63d4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
+        }
+
+        .fb-icon {
+            font-size: 24px;
+        }
+
+        .features {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+            padding: 20px;
+        }
+
+        .app-container.active {
+            display: block;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #667eea;
+        }
+
+        .user-info h3 {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .user-info p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e4e6eb;
+        }
+
+        .btn-logout {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #cc0000;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .fb-search-container {
+            position: relative;
+        }
+
+        .fb-search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            margin-top: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .fb-search-results.active {
+            display: block;
+        }
+
+        .fb-search-item {
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .fb-search-item:hover {
+            background: #f8f9fa;
+        }
+
+        .fb-search-item img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+
+        .tree-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-x: auto;
+            min-height: 600px;
+        }
+
+        .tree-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .tree-header h2 {
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tree-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            padding: 30px;
+        }
+
+        .generation {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .generation-label {
+            position: absolute;
+            left: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        .person-card {
+            background: white;
+            border: 3px solid #667eea;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .person-card.parent {
+            border-color: #4facfe;
+        }
+
+        .person-card.child {
+            border-color: #43e97b;
+        }
+
+        .person-card.sibling {
+            border-color: #fa709a;
+        }
+
+        .person-card.spouse {
+            border-color: #fee140;
+        }
+
+        .person-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid #667eea;
+        }
+
+        .person-card.parent .person-avatar {
+            border-color: #4facfe;
+        }
+
+        .person-card.child .person-avatar {
+            border-color: #43e97b;
+        }
+
+        .person-card.sibling .person-avatar {
+            border-color: #fa709a;
+        }
+
+        .person-card.spouse .person-avatar {
+            border-color: #fee140;
+        }
+
+        .person-name {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .person-relationship {
+            background: #f0f2f5;
+            color: #666;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .person-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .fb-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .fb-link:hover {
+            text-decoration: underline;
+        }
+
+        .card-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .card-btn {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .card-btn:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state-text {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .connection-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .share-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .share-btn:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .share-icon {
+            font-size: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .generation-label {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="app-logo">👨‍👩‍👧‍👦</div>
+            <h1>FamilyTree Connect</h1>
+            <p class="login-subtitle">Build and share your family tree with friends and family on Facebook</p>
+            
+            <button class="fb-login-btn" onclick="app.loginWithFacebook()">
+                <span class="fb-icon">📘</span>
+                Continue with Facebook
+            </button>
+
+            <div class="features">
+                <div class="feature-item">
+                    <span class="feature-icon">✨</span>
+                    <span>Connect with Facebook friends</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🌳</span>
+                    <span>Build multi-generational trees</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📸</span>
+                    <span>Automatic profile photos</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔗</span>
+                    <span>Share with family members</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appContainer" class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <h1 style="color: #667eea; font-size: 1.8em;">👨‍👩‍👧‍👦 FamilyTree Connect</h1>
+                <div class="user-profile">
+                    <img id="userAvatar" src="" alt="Profile" class="user-avatar">
+                    <div class="user-info">
+                        <h3 id="userName">Loading...</h3>
+                        <p id="userEmail"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="app.showShareModal()">
+                    📤 Share Tree
+                </button>
+                <button class="btn btn-secondary" onclick="app.exportTree()">
+                    💾 Export
+                </button>
+                <button class="btn btn-logout" onclick="app.logout()">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <h2>Add Family Member</h2>
+                
+                <div class="stats">
+                    <div class="stat-row">
+                        <span>Total Members</span>
+                        <span class="stat-value" id="totalMembers">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Generations</span>
+                        <span class="stat-value" id="totalGenerations">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Connected via FB</span>
+                        <span class="stat-value" id="fbConnected">0</span>
+                    </div>
+                </div>
+
+                <form id="addMemberForm">
+                    <div class="form-group">
+                        <label>Add from Facebook Friends</label>
+                        <div class="fb-search-container">
+                            <input 
+                                type="text" 
+                                id="fbSearch" 
+                                placeholder="Search Facebook friends..."
+                                autocomplete="off">
+                            <div id="fbSearchResults" class="fb-search-results"></div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 20px 0; color: #999;">
+                        — OR —
+                    </div>
+
+                    <div class="form-group">
+                        <label for="manualName">Manual Entry</label>
+                        <input type="text" id="manualName" placeholder="Full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relationship">Relationship *</label>
+                        <select id="relationship" required>
+                            <option value="">Select relationship...</option>
+                            <option value="root">Start of tree (Root)</option>
+                            <option value="parent">Parent</option>
+                            <option value="spouse">Spouse/Partner</option>
+                            <option value="child">Child</option>
+                            <option value="sibling">Sibling</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="relatedToGroup" style="display: none;">
+                        <label for="relatedTo">Related To *</label>
+                        <select id="relatedTo">
+                            <option value="">Select person...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthYear">Birth Year (optional)</label>
+                        <input type="number" id="birthYear" placeholder="e.g., 1990" min="1900" max="2025">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        ✨ Add to Family Tree
+                    </button>
+                </form>
+            </div>
+
+            <div class="tree-container">
+                <div class="tree-header">
+                    <h2>Your Family Tree</h2>
+                    <div class="view-controls">
+                        <button class="btn btn-secondary" onclick="app.zoomIn()">🔍 Zoom In</button>
+                        <button class="btn btn-secondary" onclick="app.zoomOut()">🔍 Zoom Out</button>
+                        <button class="btn btn-secondary" onclick="app.resetZoom()">↺ Reset</button>
+                    </div>
+                </div>
+                <div id="treeView" class="tree-view">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🌳</div>
+                        <div class="empty-state-text">Your family tree is empty</div>
+                        <p>Add your first family member to get started!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Family Tree</h3>
+                <button class="close-modal" onclick="app.closeShareModal()">×</button>
+            </div>
+            <div class="share-options">
+                <button class="share-btn" onclick="app.shareToFacebook()">
+                    <span class="share-icon">📘</span>
+                    <div>
+                        <strong>Share on Facebook</strong>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Post to your timeline</p>
+                    </div>
+                </button>
+                <button class="share-btn" onclick="app.shareToMessenger()">
+                    <span class="share-icon">💬</span>
+                    <div>
+                        <strong>Share via Messenger</strong>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Send to friends and family</p>
+                    </div>
+                </button>
+                <button class="share-btn" onclick="app.inviteFriends()">
+                    <span class="share-icon">👥</span>
+                    <div>
+                        <strong>Invite Friends</strong>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Ask family to join and collaborate</p>
+                    </div>
+                </button>
+                <button class="share-btn" onclick="app.copyShareLink()">
+                    <span class="share-icon">🔗</span>
+                    <div>
+                        <strong>Copy Link</strong>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Share anywhere</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facebook SDK -->
+    <script>
+        // Facebook SDK Configuration
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook App ID
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v18.0'
+            });
+
+            FB.AppEvents.logPageView();
+
+            // Check login status on load
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    app.handleLoginSuccess(response);
+                }
+            });
+        };
+
+        // Load Facebook SDK
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script>
+        class FamilyTreeApp {
+            constructor() {
+                this.currentUser = null;
+                this.members = [];
+                this.fbFriends = [];
+                this.selectedFbUser = null;
+                this.zoomLevel = 1;
+                this.init();
+            }
+
+            init() {
+                this.loadFromStorage();
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Form submission
+                document.getElementById('addMemberForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addMember();
+                });
+
+                // Relationship change
+                document.getElementById('relationship').addEventListener('change', (e) => {
+                    this.updateRelatedToDropdown(e.target.value);
+                });
+
+                // Facebook friend search
+                document.getElementById('fbSearch').addEventListener('input', (e) => {
+                    this.searchFacebookFriends(e.target.value);
+                });
+
+                // Click outside to close search results
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.fb-search-container')) {
+                        document.getElementById('fbSearchResults').classList.remove('active');
+                    }
+                });
+            }
+
+            loginWithFacebook() {
+                FB.login((response) => {
+                    if (response.authResponse) {
+                        this.handleLoginSuccess(response);
+                    } else {
+                        alert('Login cancelled or not authorized');
+                    }
+                }, {
+                    scope: 'public_profile,email,user_friends',
+                    return_scopes: true
+                });
+            }
+
+            handleLoginSuccess(response) {
+                // Get user data
+                FB.api('/me', { fields: 'id,name,email,picture' }, (user) => {
+                    this.currentUser = {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        picture: user.picture.data.url
+                    };
+
+                    // Update UI
+                    document.getElementById('userName').textContent = user.name;
+                    document.getElementById('userEmail').textContent = user.email || '';
+                    document.getElementById('userAvatar').src = user.picture.data.url;
+
+                    // Show app, hide login
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('appContainer').classList.add('active');
+
+                    // Load friends
+                    this.loadFacebookFriends();
+
+                    // Render tree
+                    this.render();
+                });
+            }
+
+            loadFacebookFriends() {
+                // Note: This requires app review from Facebook to get user_friends permission
+                FB.api('/me/friends', { fields: 'id,name,picture' }, (response) => {
+                    if (response.data) {
+                        this.fbFriends = response.data;
+                    }
+                });
+
+                // For demo: Create mock friends if no real friends available
+                if (this.fbFriends.length === 0) {
+                    this.fbFriends = this.generateMockFriends();
+                }
+            }
+
+            generateMockFriends() {
+                // Mock data for demonstration
+                const names = ['John Smith', 'Sarah Johnson', 'Michael Brown', 'Emily Davis', 'David Wilson', 
+                              'Jessica Martinez', 'Robert Taylor', 'Mary Anderson', 'James Thomas', 'Jennifer White'];
+                return names.map((name, i) => ({
+                    id: `mock_${i}`,
+                    name: name,
+                    picture: { data: { url: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=667eea&color=fff` }}
+                }));
+            }
+
+            searchFacebookFriends(query) {
+                const results = document.getElementById('fbSearchResults');
+                
+                if (!query.trim()) {
+                    results.classList.remove('active');
+                    return;
+                }
+
+                const filtered = this.fbFriends.filter(friend => 
+                    friend.name.toLowerCase().includes(query.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    results.innerHTML = '<div style="padding: 15px; text-align: center; color: #999;">No friends found</div>';
+                    results.classList.add('active');
+                    return;
+                }
+
+                results.innerHTML = filtered.map(friend => `
+                    <div class="fb-search-item" onclick="app.selectFacebookFriend('${friend.id}')">
+                        <img src="${friend.picture.data.url}" alt="${friend.name}">
+                        <span>${friend.name}</span>
+                    </div>
+                `).join('');
+
+                results.classList.add('active');
+            }
+
+            selectFacebookFriend(friendId) {
+                const friend = this.fbFriends.find(f => f.id === friendId);
+                if (friend) {
+                    this.selectedFbUser = friend;
+                    document.getElementById('fbSearch').value = friend.name;
+                    document.getElementById('fbSearchResults').classList.remove('active');
+                    document.getElementById('manualName').value = '';
+                }
+            }
+
+            addMember() {
+                const relationship = document.getElementById('relationship').value;
+                const relatedTo = document.getElementById('relatedTo').value;
+                const birthYear = document.getElementById('birthYear').value;
+                const manualName = document.getElementById('manualName').value.trim();
+
+                let name, fbId, picture;
+
+                if (this.selectedFbUser) {
+                    name = this.selectedFbUser.name;
+                    fbId = this.selectedFbUser.id;
+                    picture = this.selectedFbUser.picture.data.url;
+                } else if (manualName) {
+                    name = manualName;
+                    fbId = null;
+                    picture = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=random`;
+                } else {
+                    alert('Please select a Facebook friend or enter a name manually');
+                    return;
+                }
+
+                if (!relationship) {
+                    alert('Please select a relationship');
+                    return;
+                }
+
+                if (relationship !== 'root' && !relatedTo) {
+                    alert('Please select who this person is related to');
+                    return;
+                }
+
+                const member = {
+                    id: Date.now().toString(),
+                    name,
+                    fbId,
+                    picture,
+                    relationship,
+                    relatedTo: relationship === 'root' ? null : relatedTo,
+                    birthYear: birthYear || null,
+                    generation: this.calculateGeneration(relationship, relatedTo),
+                    addedBy: this.currentUser.id,
+                    addedAt: new Date().toISOString()
+                };
+
+                this.members.push(member);
+                this.saveToStorage();
+                this.render();
+
+                // Reset form
+                document.getElementById('addMemberForm').reset();
+                document.getElementById('fbSearch').value = '';
+                document.getElementById('relatedToGroup').style.display = 'none';
+                this.selectedFbUser = null;
+            }
+
+            calculateGeneration(relationship, relatedToId) {
+                if (relationship === 'root') return 0;
+                
+                const relatedPerson = this.members.find(m => m.id === relatedToId);
+                if (!relatedPerson) return 0;
+
+                switch(relationship) {
+                    case 'parent':
+                        return relatedPerson.generation - 1;
+                    case 'child':
+                        return relatedPerson.generation + 1;
+                    case 'spouse':
+                    case 'sibling':
+                        return relatedPerson.generation;
+                    default:
+                        return 0;
+                }
+            }
+
+            updateRelatedToDropdown(relationship) {
+                const relatedToGroup = document.getElementById('relatedToGroup');
+                const relatedToSelect = document.getElementById('relatedTo');
+
+                if (relationship === 'root') {
+                    relatedToGroup.style.display = 'none';
+                    return;
+                }
+
+                relatedToGroup.style.display = 'block';
+                relatedToSelect.innerHTML = '<option value="">Select person...</option>';
+
+                this.members.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.textContent = member.name;
+                    relatedToSelect.appendChild(option);
+                });
+            }
+
+            deleteMember(id) {
+                if (confirm('Are you sure you want to remove this family member from the tree?')) {
+                    this.members = this.members.filter(m => m.id !== id);
+                    this.saveToStorage();
+                    this.render();
+                }
+            }
+
+            render() {
+                const treeView = document.getElementById('treeView');
+                
+                if (this.members.length === 0) {
+                    treeView.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🌳</div>
+                            <div class="empty-state-text">Your family tree is empty</div>
+                            <p>Add your first family member to get started!</p>
+                        </div>
+                    `;
+                    this.updateStats();
+                    return;
+                }
+
+                // Group by generation
+                const generations = {};
+                this.members.forEach(member => {
+                    if (!generations[member.generation]) {
+                        generations[member.generation] = [];
+                    }
+                    generations[member.generation].push(member);
+                });
+
+                const sortedGenerations = Object.keys(generations).sort((a, b) => a - b);
+                
+                let html = '';
+                sortedGenerations.forEach(gen => {
+                    const genLabel = this.getGenerationLabel(parseInt(gen));
+                    html += `<div class="generation">`;
+                    html += `<div class="generation-label">${genLabel}</div>`;
+                    generations[gen].forEach(member => {
+                        html += this.renderPersonCard(member);
+                    });
+                    html += '</div>';
+                });
+
+                treeView.innerHTML = html;
+                treeView.style.transform = `scale(${this.zoomLevel})`;
+                this.updateStats();
+            }
+
+            getGenerationLabel(gen) {
+                if (gen === 0) return '🌟 Root';
+                if (gen < 0) return `👴 Gen ${Math.abs(gen)} (Ancestors)`;
+                return `👶 Gen +${gen} (Descendants)`;
+            }
+
+            renderPersonCard(member) {
+                const relationshipClass = member.relationship === 'root' ? '' : member.relationship;
+                const fbLink = member.fbId ? `https://facebook.com/${member.fbId}` : '#';
+                
+                return `
+                    <div class="person-card ${relationshipClass}">
+                        <div class="card-actions">
+                            ${member.fbId ? '<button class="card-btn" onclick="window.open(\'https://facebook.com/' + member.fbId + '\', \'_blank\')">📘</button>' : ''}
+                            <button class="card-btn" onclick="app.deleteMember('${member.id}')">🗑️</button>
+                        </div>
+                        <img src="${member.picture}" alt="${member.name}" class="person-avatar">
+                        <div class="person-name">${member.name}</div>
+                        <div class="person-relationship">${this.formatRelationship(member.relationship)}</div>
+                        ${member.birthYear ? `<div class="person-info">Born: ${member.birthYear}</div>` : ''}
+                        ${member.fbId ? `<a href="${fbLink}" target="_blank" class="fb-link">📘 View on Facebook</a>` : ''}
+                    </div>
+                `;
+            }
+
+            formatRelationship(rel) {
+                const map = {
+                    root: 'Root Member',
+                    parent: 'Parent',
+                    child: 'Child',
+                    spouse: 'Spouse',
+                    sibling: 'Sibling'
+                };
+                return map[rel] || rel;
+            }
+
+            updateStats() {
+                document.getElementById('totalMembers').textContent = this.members.length;
+                const generations = new Set(this.members.map(m => m.generation));
+                document.getElementById('totalGenerations').textContent = generations.size;
+                const fbConnected = this.members.filter(m => m.fbId).length;
+                document.getElementById('fbConnected').textContent = fbConnected;
+            }
+
+            zoomIn() {
+                this.zoomLevel = Math.min(this.zoomLevel + 0.1, 2);
+                document.getElementById('treeView').style.transform = `scale(${this.zoomLevel})`;
+            }
+
+            zoomOut() {
+                this.zoomLevel = Math.max(this.zoomLevel - 0.1, 0.5);
+                document.getElementById('treeView').style.transform = `scale(${this.zoomLevel})`;
+            }
+
+            resetZoom() {
+                this.zoomLevel = 1;
+                document.getElementById('treeView').style.transform = `scale(${this.zoomLevel})`;
+            }
+
+            showShareModal() {
+                document.getElementById('shareModal').classList.add('active');
+            }
+
+            closeShareModal() {
+                document.getElementById('shareModal').classList.remove('active');
+            }
+
+            shareToFacebook() {
+                FB.ui({
+                    method: 'share',
+                    href: window.location.href,
+                    quote: `Check out my family tree on FamilyTree Connect! Join me to build our family history together. 🌳👨‍👩‍👧‍👦`,
+                }, function(response){
+                    if (response && !response.error_message) {
+                        alert('Successfully shared to Facebook!');
+                    }
+                });
+                this.closeShareModal();
+            }
+
+            shareToMessenger() {
+                FB.ui({
+                    method: 'send',
+                    link: window.location.href,
+                }, function(response){
+                    if (response && !response.error_message) {
+                        alert('Sent via Messenger!');
+                    }
+                });
+                this.closeShareModal();
+            }
+
+            inviteFriends() {
+                FB.ui({
+                    method: 'apprequests',
+                    message: 'Join me on FamilyTree Connect to build our family tree together!',
+                }, function(response){
+                    if (response && response.request) {
+                        alert('Invitations sent!');
+                    }
+                });
+                this.closeShareModal();
+            }
+
+            copyShareLink() {
+                const link = window.location.href;
+                navigator.clipboard.writeText(link).then(() => {
+                    alert('Link copied to clipboard!');
+                });
+                this.closeShareModal();
+            }
+
+            exportTree() {
+                const dataStr = JSON.stringify({
+                    user: this.currentUser,
+                    members: this.members,
+                    exportedAt: new Date().toISOString()
+                }, null, 2);
+                
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'family-tree-export.json';
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+
+            logout() {
+                if (confirm('Are you sure you want to logout?')) {
+                    FB.logout(() => {
+                        this.currentUser = null;
+                        document.getElementById('loginScreen').style.display = 'flex';
+                        document.getElementById('appContainer').classList.remove('active');
+                    });
+                }
+            }
+
+            saveToStorage() {
+                const data = {
+                    user: this.currentUser,
+                    members: this.members
+                };
+                localStorage.setItem('familyTreeData', JSON.stringify(data));
+            }
+
+            loadFromStorage() {
+                const data = localStorage.getItem('familyTreeData');
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    this.members = parsed.members || [];
+                }
+            }
+        }
+
+        // Initialize app
+        const app = new FamilyTreeApp();
+    </script>
+</body>
+</html>
