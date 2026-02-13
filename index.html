@@ -120,6 +120,17 @@
             font-size: 14px;
         }
 
+        /* Error message */
+        .error-banner {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
         /* Navigation */
         .navbar {
             background: var(--bg);
@@ -242,154 +253,177 @@
             height: 600px;
         }
 
-        /* SVG Lines */
-        .tree-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Tree Nodes */
-        .tree-nodes-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
-
         .tree-node {
             position: absolute;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            min-width: 120px;
         }
 
-        .tree-node-avatar {
+        .tree-node:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .tree-node.root-node {
+            border-color: var(--primary);
+            border-width: 3px;
+        }
+
+        .node-avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
+            margin: 0 auto 8px;
             object-fit: cover;
             border: 2px solid var(--border);
-            transition: all 0.3s ease;
-            background: white;
         }
 
-        .tree-node:hover .tree-node-avatar {
-            width: 70px;
-            height: 70px;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translate(-10px, -10px);
+        .node-name {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 2px;
         }
 
-        .tree-node-info {
+        .node-relation {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .tree-line {
             position: absolute;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: var(--border);
             pointer-events: none;
         }
 
-        .tree-node:hover .tree-node-info {
-            opacity: 1;
-            top: 70px;
-        }
-
-        .tree-node-name {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--primary);
-        }
-
-        .tree-node-relation {
-            font-size: 11px;
-            color: var(--secondary);
-        }
-
-        .tree-node-degree {
-            font-size: 10px;
-            color: var(--text-light);
-            font-family: monospace;
-        }
-
-        .tree-node.root .tree-node-avatar {
-            width: 70px;
-            height: 70px;
-            border-width: 3px;
-            border-color: var(--primary);
-        }
-
-        .tree-node.root:hover .tree-node-avatar {
-            width: 90px;
-            height: 90px;
-            transform: translate(-10px, -10px);
-        }
-
-        .tree-node.deceased .tree-node-avatar {
-            filter: grayscale(100%);
-            opacity: 0.7;
-        }
-
-        /* Context Menu */
-        .context-menu {
-            position: fixed;
+        .add-member-card {
             background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            display: none;
-        }
-
-        .context-menu.active {
-            display: block;
-        }
-
-        .context-menu-item {
-            padding: 10px 16px;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
             cursor: pointer;
-            border-radius: 4px;
-            white-space: nowrap;
-            font-size: 14px;
+            transition: all 0.2s;
         }
 
-        .context-menu-item:hover {
+        .add-member-card:hover {
+            border-color: var(--primary);
             background: var(--hover);
         }
 
-        /* Feed */
-        .feed {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        .add-member-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
         }
 
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--secondary);
+            padding: 0;
+            width: 32px;
+            height: 32px;
+        }
+
+        .close-btn:hover {
+            color: var(--text);
+        }
+
+        .photo-upload {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .photo-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            cursor: pointer;
+            font-size: 48px;
+            color: var(--text-light);
+        }
+
+        .photo-placeholder:hover {
+            border-color: var(--primary);
+            background: var(--hover);
+        }
+
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 12px;
+            display: none;
+        }
+
+        /* Card */
         .card {
-            background: var(--bg);
-            border-radius: 8px;
-            padding: 16px;
+            background: white;
+            border-radius: 12px;
             border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 16px;
         }
 
-        .post-creator {
+        .post-header {
             display: flex;
+            align-items: center;
             gap: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
             margin-bottom: 12px;
         }
 
@@ -398,57 +432,11 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid var(--border);
-        }
-
-        .post-input {
-            flex: 1;
-            background: var(--card);
-            padding: 12px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            color: var(--text-light);
-            border: 1px solid var(--border);
-        }
-
-        .post-input:hover {
-            background: var(--hover);
-        }
-
-        .post-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .post-action-btn {
-            flex: 1;
-            padding: 8px;
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--secondary);
-        }
-
-        .post-action-btn:hover {
-            background: var(--hover);
-        }
-
-        .post-header {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .post-author-info h4 {
-            font-size: 15px;
-            font-weight: 600;
         }
 
         .post-time {
-            font-size: 13px;
             color: var(--text-light);
+            font-size: 13px;
         }
 
         .post-content {
@@ -460,31 +448,31 @@
             width: 100%;
             border-radius: 8px;
             margin-bottom: 12px;
-            border: 1px solid var(--border);
         }
 
         .post-stats {
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 8px;
-            font-size: 14px;
             color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
         }
 
         .post-buttons {
             display: flex;
-            gap: 4px;
+            gap: 8px;
         }
 
         .post-btn {
             flex: 1;
-            padding: 8px;
+            padding: 10px;
             background: none;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 14px;
             font-weight: 500;
-            color: var(--secondary);
+            transition: background 0.2s;
         }
 
         .post-btn:hover {
@@ -495,147 +483,310 @@
             color: #e74c3c;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+        .feed-header {
+            display: flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-        }
-
-        .modal-header {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
         }
 
-        .modal-title {
-            font-size: 1.5em;
-            font-weight: 600;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-light);
-            line-height: 1;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-light);
+        .feed-header h2 {
+            font-size: 20px;
         }
 
         /* Profile */
-        .profile-page {
-            padding: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
         .profile-header {
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: white;
             border-radius: 12px;
+            border: 1px solid var(--border);
             padding: 40px;
-            margin-bottom: 24px;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .profile-avatar {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            border: 3px solid var(--border);
             margin: 0 auto 20px;
-            cursor: pointer;
             object-fit: cover;
+            border: 3px solid var(--border);
+            cursor: pointer;
         }
 
-        .profile-name {
-            font-size: 2em;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .profile-avatar:hover {
+            border-color: var(--primary);
         }
 
         .profile-stats {
             display: flex;
-            gap: 40px;
             justify-content: center;
-            margin: 20px 0;
+            gap: 40px;
+            margin-top: 24px;
         }
 
         .stat {
             text-align: center;
         }
 
-        .stat-value {
-            font-size: 1.5em;
+        .stat-number {
+            font-size: 24px;
             font-weight: 700;
-            display: block;
+            margin-bottom: 4px;
         }
 
         .stat-label {
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        /* Full Tree View */
-        .full-tree-view {
+        /* Tree Page */
+        .tree-page {
             padding: 40px;
-            min-height: calc(100vh - 60px);
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .tree-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
         }
 
         .tree-controls {
             display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            justify-content: center;
+            gap: 8px;
         }
 
-        .control-btn {
-            padding: 8px 16px;
+        .tree-canvas {
+            background: white;
+            border-radius: 12px;
             border: 1px solid var(--border);
-            background: var(--bg);
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
+            min-height: 600px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .control-btn:hover {
-            background: var(--hover);
+        #fullTreeView {
+            transition: transform 0.3s;
+            transform-origin: center center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .home-split {
+                grid-template-columns: 1fr;
+            }
+            
+            .home-tree-section {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .nav-tabs {
+                gap: 4px;
+            }
+            
+            .nav-tab {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="app"></div>
+    <!-- Auth Screen -->
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-box">
+            <div class="logo-section">
+                <div style="font-size: 60px;">🌳</div>
+                <h1>Roots</h1>
+                <p>Your family social network</p>
+            </div>
+
+            <div id="errorBanner" class="error-banner"></div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
+                <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+                <button class="btn btn-primary" onclick="app.login()">Sign In</button>
+                <button class="btn btn-secondary" onclick="app.showSignup()">Create Account</button>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" class="hidden">
+                <input type="text" id="signupName" placeholder="Full name" autocomplete="name">
+                <input type="email" id="signupEmail" placeholder="Email address" autocomplete="email">
+                <input type="password" id="signupPassword" placeholder="Password" autocomplete="new-password">
+                <button class="btn btn-primary" onclick="app.signup()">Create Account</button>
+                <button class="btn btn-secondary" onclick="app.showLogin()">Back to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="nav-logo">🌳 Roots</div>
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="home" onclick="app.switchTab('home')">Home</button>
+                    <button class="nav-tab" data-tab="tree" onclick="app.switchTab('tree')">Family Tree</button>
+                    <button class="nav-tab" data-tab="profile" onclick="app.switchTab('profile')">Profile</button>
+                </div>
+                <div class="nav-right">
+                    <button class="nav-btn" onclick="app.logout()">🚪</button>
+                    <img src="" id="navAvatar" class="user-avatar-small" onclick="app.switchTab('profile')">
+                </div>
+            </div>
+        </nav>
+
+        <!-- Home Tab -->
+        <div id="homeTab" class="tab-content">
+            <div class="home-split">
+                <div class="home-tree-section">
+                    <h2 style="margin-bottom: 20px;">Your Family</h2>
+                    <div class="tree-view-container">
+                        <div class="mind-map-tree" id="miniTreeView"></div>
+                    </div>
+                </div>
+                <div class="home-feed-section">
+                    <div class="feed-header">
+                        <h2>Family Feed</h2>
+                        <button class="btn btn-primary" style="width: auto; padding: 10px 20px;" onclick="app.showCreatePost()">
+                            ✍️ New Post
+                        </button>
+                    </div>
+                    <div id="postsContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tree Tab -->
+        <div id="treeTab" class="tab-content hidden">
+            <div class="tree-page">
+                <div class="tree-header">
+                    <h1>Family Tree</h1>
+                    <div class="tree-controls">
+                        <button class="btn btn-secondary" style="width: auto; padding: 10px 20px;" onclick="app.zoomOut()">➖</button>
+                        <button class="btn btn-secondary" style="width: auto; padding: 10px 20px;" onclick="app.resetZoom()">⭕</button>
+                        <button class="btn btn-secondary" style="width: auto; padding: 10px 20px;" onclick="app.zoomIn()">➕</button>
+                        <button class="btn btn-primary" style="width: auto; padding: 10px 20px;" onclick="app.showAddMember()">
+                            ➕ Add Family Member
+                        </button>
+                    </div>
+                </div>
+                <div class="tree-canvas">
+                    <div id="fullTreeView"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profileTab" class="tab-content hidden">
+            <div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+                <div class="profile-header">
+                    <img src="" id="profileAvatar" class="profile-avatar" onclick="app.uploadProfilePhoto()">
+                    <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;" onchange="app.handleProfilePhotoUpload(event)">
+                    <h2 id="profileName"></h2>
+                    <p id="profileEmail" style="color: var(--text-light); margin-top: 4px;"></p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="familyCount">0</div>
+                            <div class="stat-label">Family Members</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="postCount">0</div>
+                            <div class="stat-label">Posts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 16px;">Your Posts</h3>
+                <div id="profilePosts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Family Member Modal -->
+    <div id="addMemberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Family Member</h3>
+                <button class="close-btn" onclick="app.closeAddMember()">×</button>
+            </div>
+            
+            <div class="photo-upload">
+                <div id="familyMemberPhotoPlaceholder" class="photo-placeholder" onclick="document.getElementById('familyMemberPhotoInput').click()">
+                    👤
+                </div>
+                <img id="familyMemberPhotoPreview" class="photo-preview">
+                <input type="file" id="familyMemberPhotoInput" accept="image/*" style="display: none;" onchange="app.handleFamilyMemberPhoto(event)">
+                <small style="color: var(--text-light);">Click to upload photo</small>
+            </div>
+
+            <label>Name</label>
+            <input type="text" id="familyMemberName" placeholder="Full name">
+
+            <label>Relationship to You</label>
+            <select id="familyMemberRelationship">
+                <option value="">Select relationship...</option>
+                <option value="father">Father</option>
+                <option value="mother">Mother</option>
+                <option value="husband">Husband</option>
+                <option value="wife">Wife</option>
+                <option value="son">Son</option>
+                <option value="daughter">Daughter</option>
+                <option value="brother">Brother</option>
+                <option value="sister">Sister</option>
+            </select>
+
+            <label>Birth Year (Optional)</label>
+            <input type="number" id="familyMemberBirthYear" placeholder="1990" min="1900" max="2024">
+
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 20px;">
+                <input type="checkbox" id="familyMemberDeceased">
+                Deceased
+            </label>
+
+            <button class="btn btn-primary" onclick="app.addFamilyMember()">Add Family Member</button>
+        </div>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div id="createPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Post</h3>
+                <button class="close-btn" onclick="app.closeCreatePost()">×</button>
+            </div>
+            
+            <textarea id="postContent" placeholder="What's on your mind?" rows="4"></textarea>
+            
+            <div id="postPhotoPreview" class="hidden" style="margin: 12px 0;">
+                <img id="postPhotoImg" style="width: 100%; border-radius: 8px;">
+            </div>
+            
+            <input type="file" id="postPhotoInput" accept="image/*" style="display: none;" onchange="app.handlePostPhoto(event)">
+            
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary" onclick="document.getElementById('postPhotoInput').click()">
+                    📷 Add Photo
+                </button>
+                <button class="btn btn-primary" onclick="app.publishPost()">
+                    Publish
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         class RootsApp {
@@ -646,56 +797,76 @@
                 this.treeMembers = [];
                 this.currentPostPhoto = null;
                 this.currentFamilyMemberPhoto = null;
-                this.contextNode = null;
                 this.selectedBaseNode = null;
                 this.zoomLevel = 1;
+                
                 this.init();
             }
 
             init() {
-                this.loadData();
-                this.checkAuth();
-            }
+                // Check localStorage availability
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                } catch (e) {
+                    this.showError('Storage is not available. The app may not work correctly.');
+                    console.error('LocalStorage error:', e);
+                }
 
-            checkAuth() {
-                const stored = localStorage.getItem('rootsCurrentUser');
-                if (stored) {
-                    this.currentUser = JSON.parse(stored);
-                    this.renderMainApp();
-                    this.showApp();
+                this.loadData();
+                const savedUser = this.getSavedUser();
+                
+                if (savedUser) {
+                    this.currentUser = savedUser;
+                    this.showMainApp();
                 } else {
-                    this.renderAuthScreen();
+                    this.showAuthScreen();
                 }
             }
 
-            renderAuthScreen() {
-                document.getElementById('app').innerHTML = `
-                    <div class="auth-screen">
-                        <div class="auth-box">
-                            <div class="logo-section">
-                                <h1>🌳 Roots</h1>
-                                <p>Your family's social network</p>
-                            </div>
-                            
-                            <div id="loginForm">
-                                <input type="email" id="loginEmail" placeholder="Email">
-                                <input type="password" id="loginPassword" placeholder="Password">
-                                <button onclick="app.login()" class="btn btn-primary">Log In</button>
-                                <div style="text-align: center; margin: 16px 0; color: var(--text-light); font-size: 14px;">OR</div>
-                                <button onclick="app.showSignup()" class="btn btn-secondary">Create New Account</button>
-                            </div>
+            showError(message) {
+                const banner = document.getElementById('errorBanner');
+                if (banner) {
+                    banner.textContent = message;
+                    banner.style.display = 'block';
+                    setTimeout(() => {
+                        banner.style.display = 'none';
+                    }, 5000);
+                }
+            }
 
-                            <div id="signupForm" class="hidden">
-                                <input type="text" id="signupName" placeholder="Full Name">
-                                <input type="email" id="signupEmail" placeholder="Email">
-                                <input type="password" id="signupPassword" placeholder="Password (min 6 characters)">
-                                <button onclick="app.signup()" class="btn btn-primary">Sign Up</button>
-                                <div style="text-align: center; margin: 16px 0; color: var(--text-light); font-size: 14px;">OR</div>
-                                <button onclick="app.showLogin()" class="btn btn-secondary">Already have an account?</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            getSavedUser() {
+                try {
+                    const saved = localStorage.getItem('rootsCurrentUser');
+                    return saved ? JSON.parse(saved) : null;
+                } catch (e) {
+                    console.error('Error reading saved user:', e);
+                    return null;
+                }
+            }
+
+            saveCurrentUser(user) {
+                try {
+                    localStorage.setItem('rootsCurrentUser', JSON.stringify(user));
+                } catch (e) {
+                    console.error('Error saving user:', e);
+                    this.showError('Could not save user data');
+                }
+            }
+
+            showAuthScreen() {
+                document.getElementById('authScreen').classList.remove('hidden');
+                document.getElementById('mainApp').classList.add('hidden');
+            }
+
+            showMainApp() {
+                document.getElementById('authScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                document.getElementById('navAvatar').src = this.currentUser.avatar;
+                document.getElementById('profileAvatar').src = this.currentUser.avatar;
+                document.getElementById('profileName').textContent = this.currentUser.name;
+                document.getElementById('profileEmail').textContent = this.currentUser.email;
+                this.switchTab('home');
             }
 
             showLogin() {
@@ -704,8 +875,8 @@
             }
 
             showSignup() {
-                document.getElementById('signupForm').classList.remove('hidden');
                 document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('signupForm').classList.remove('hidden');
             }
 
             login() {
@@ -713,7 +884,7 @@
                 const password = document.getElementById('loginPassword').value;
 
                 if (!email || !password) {
-                    alert('Please enter email and password');
+                    this.showError('Please fill in all fields');
                     return;
                 }
 
@@ -721,11 +892,10 @@
                 
                 if (user) {
                     this.currentUser = user;
-                    localStorage.setItem('rootsCurrentUser', JSON.stringify(user));
-                    this.renderMainApp();
-                    this.showApp();
+                    this.saveCurrentUser(user);
+                    this.showMainApp();
                 } else {
-                    alert('Invalid email or password');
+                    this.showError('Invalid email or password');
                 }
             }
 
@@ -735,17 +905,12 @@
                 const password = document.getElementById('signupPassword').value;
 
                 if (!name || !email || !password) {
-                    alert('Please fill all fields');
-                    return;
-                }
-
-                if (password.length < 6) {
-                    alert('Password must be at least 6 characters');
+                    this.showError('Please fill in all fields');
                     return;
                 }
 
                 if (this.users.find(u => u.email === email)) {
-                    alert('Email already registered');
+                    this.showError('Email already registered');
                     return;
                 }
 
@@ -759,602 +924,235 @@
                 };
 
                 this.users.push(newUser);
-                this.currentUser = newUser;
-                localStorage.setItem('rootsCurrentUser', JSON.stringify(newUser));
-                this.saveData();
                 
-                this.renderMainApp();
-                this.showApp();
-            }
-
-            renderMainApp() {
-                document.getElementById('app').innerHTML = `
-                    <nav class="navbar">
-                        <div class="nav-content">
-                            <div class="nav-logo" onclick="app.showHome()">🌳 Roots</div>
-                            
-                            <div class="nav-tabs">
-                                <button class="nav-tab active" id="homeTab" onclick="app.showHome()">Home</button>
-                                <button class="nav-tab" id="treeTab" onclick="app.showFullTree()">Family Tree</button>
-                                <button class="nav-tab" id="profileTab" onclick="app.showProfile()">Profile</button>
-                            </div>
-
-                            <div class="nav-right">
-                                <button class="nav-btn" onclick="app.showAddFamilyMember()" title="Add Family Member">+</button>
-                                <button class="nav-btn" onclick="app.logout()" title="Logout">⎋</button>
-                                <img id="navAvatar" class="user-avatar-small" onclick="app.showProfile()" src="${this.currentUser.avatar}">
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div class="main-container">
-                        <div id="homePage" class="home-split">
-                            <div class="home-tree-section">
-                                <div class="tree-view-container" id="homeTreeView"></div>
-                            </div>
-                            <div class="home-feed-section">
-                                <div class="feed">
-                                    <div class="card">
-                                        <div class="post-creator">
-                                            <img class="avatar" src="${this.currentUser.avatar}">
-                                            <div class="post-input" onclick="app.showCreatePost()">
-                                                What's on your mind?
-                                            </div>
-                                        </div>
-                                        <div class="post-actions">
-                                            <button class="post-action-btn" onclick="app.showCreatePost()">📸 Photo</button>
-                                            <button class="post-action-btn" onclick="app.showAddFamilyMember()">👥 Invite</button>
-                                        </div>
-                                    </div>
-                                    <div id="postsContainer"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="fullTreePage" class="full-tree-view hidden">
-                            <div class="tree-controls">
-                                <button class="control-btn" onclick="app.zoomIn()">🔍+ Zoom In</button>
-                                <button class="control-btn" onclick="app.zoomOut()">🔍- Zoom Out</button>
-                                <button class="control-btn" onclick="app.resetZoom()">↺ Reset</button>
-                            </div>
-                            <div class="tree-view-container" id="fullTreeView"></div>
-                        </div>
-
-                        <div id="profilePage" class="profile-page hidden">
-                            <div class="profile-header">
-                                <img id="profileAvatar" class="profile-avatar" src="${this.currentUser.avatar}" onclick="app.uploadProfilePhoto()">
-                                <input type="file" id="profilePhotoInput" class="hidden" accept="image/*">
-                                <h1 class="profile-name">${this.currentUser.name}</h1>
-                                <div class="profile-stats">
-                                    <div class="stat">
-                                        <span class="stat-value" id="familyCount">0</span>
-                                        <span class="stat-label">Family Members</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-value" id="postCount">0</span>
-                                        <span class="stat-label">Posts</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary" onclick="app.showAddFamilyMember()">Add Family Member</button>
-                            </div>
-                            <div class="feed" id="profilePosts"></div>
-                        </div>
-                    </div>
-
-                    <!-- Context Menu -->
-                    <div id="contextMenu" class="context-menu">
-                        <div class="context-menu-item" onclick="app.contextAddChild()">Add Child</div>
-                        <div class="context-menu-item" onclick="app.contextAddSpouse()">Add Spouse</div>
-                        <div class="context-menu-item" onclick="app.contextAddSibling()">Add Sibling</div>
-                        <div class="context-menu-item" onclick="app.contextAddParent()">Add Parent</div>
-                        <div class="context-menu-item" onclick="app.contextMakeCenter()">Make Center Node</div>
-                        <div class="context-menu-item" onclick="app.contextRemove()">Remove</div>
-                    </div>
-
-                    <!-- Add Family Member Modal -->
-                    <div id="addFamilyMemberModal" class="modal">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2 class="modal-title">Add Family Member</h2>
-                                <button class="close-btn" onclick="app.closeAddFamilyMember()">×</button>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label>Photo (Optional)</label>
-                                <div style="display: flex; align-items: center; gap: 16px;">
-                                    <div>
-                                        <img id="familyMemberPhotoPreview" src="" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); display: none;">
-                                        <div id="familyMemberPhotoPlaceholder" style="width: 80px; height: 80px; border-radius: 50%; background: var(--card); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 2em; color: var(--text-light);">
-                                            👤
-                                        </div>
-                                    </div>
-                                    <input type="file" id="familyMemberPhotoInput" accept="image/*" class="hidden">
-                                    <button class="btn-secondary" onclick="document.getElementById('familyMemberPhotoInput').click()">
-                                        Choose Photo
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label>Add To</label>
-                                <select id="baseNodeSelect">
-                                    <option value="">Select person...</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label>Full Name *</label>
-                                <input type="text" id="familyMemberName" placeholder="Enter name" required>
-                            </div>
-
-                            <div>
-                                <label>Relationship *</label>
-                                <select id="familyMemberRelationship" required>
-                                    <option value="">Select relationship...</option>
-                                    <option value="father">Father</option>
-                                    <option value="mother">Mother</option>
-                                    <option value="husband">Husband</option>
-                                    <option value="wife">Wife</option>
-                                    <option value="son">Son</option>
-                                    <option value="daughter">Daughter</option>
-                                    <option value="brother">Brother</option>
-                                    <option value="sister">Sister</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label>Birth Year (Optional)</label>
-                                <input type="number" id="familyMemberBirthYear" placeholder="e.g., 1980" min="1900" max="2025">
-                            </div>
-
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: normal;">
-                                    <input type="checkbox" id="familyMemberDeceased" style="width: auto; margin: 0;">
-                                    <span>This person is deceased</span>
-                                </label>
-                            </div>
-
-                            <div style="display: flex; gap: 12px;">
-                                <button class="btn btn-primary" onclick="app.saveFamilyMember()">
-                                    Add to Family Tree
-                                </button>
-                                <button class="btn-secondary" onclick="app.closeAddFamilyMember()">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Create Post Modal -->
-                    <div id="createPostModal" class="modal">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2 class="modal-title">Create Post</h2>
-                                <button class="close-btn" onclick="app.closeCreatePost()">×</button>
-                            </div>
-                            
-                            <textarea id="postContent" placeholder="What's on your mind?" style="min-height: 120px; resize: vertical;"></textarea>
-                            
-                            <div style="margin: 16px 0;">
-                                <input type="file" id="postPhotoInput" accept="image/*" class="hidden">
-                                <button class="btn-secondary" onclick="document.getElementById('postPhotoInput').click()">
-                                    📸 Add Photo
-                                </button>
-                                <div id="postPhotoPreview" class="hidden" style="margin-top: 12px;">
-                                    <img id="postPhotoImg" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border);">
-                                </div>
-                            </div>
-
-                            <button class="btn btn-primary" onclick="app.publishPost()">
-                                Post
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                this.setupEventListeners();
-            }
-
-            setupEventListeners() {
-                // Photo uploads
-                document.getElementById('familyMemberPhotoInput')?.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            this.currentFamilyMemberPhoto = event.target.result;
-                            document.getElementById('familyMemberPhotoPreview').src = this.currentFamilyMemberPhoto;
-                            document.getElementById('familyMemberPhotoPreview').style.display = 'block';
-                            document.getElementById('familyMemberPhotoPlaceholder').style.display = 'none';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-
-                document.getElementById('postPhotoInput')?.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            this.currentPostPhoto = event.target.result;
-                            document.getElementById('postPhotoImg').src = this.currentPostPhoto;
-                            document.getElementById('postPhotoPreview')?.classList.remove('hidden');
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-
-                document.getElementById('profilePhotoInput')?.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            this.currentUser.avatar = event.target.result;
-                            localStorage.setItem('rootsCurrentUser', JSON.stringify(this.currentUser));
-                            document.getElementById('navAvatar').src = this.currentUser.avatar;
-                            document.getElementById('profileAvatar').src = this.currentUser.avatar;
-                            
-                            // Update in tree
-                            const treeMember = this.treeMembers.find(m => m.userId === this.currentUser.id && m.ownerId === this.currentUser.id);
-                            if (treeMember) {
-                                treeMember.avatar = this.currentUser.avatar;
-                                this.saveData();
-                                this.renderTree('homeTreeView');
-                            }
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-
-                // Close context menu on click
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.context-menu')) {
-                        document.getElementById('contextMenu')?.classList.remove('active');
-                    }
-                });
-            }
-
-            showApp() {
-                // Initialize tree for this user
-                const userTree = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
-                if (userTree.length === 0) {
-                    this.addSelfToTree();
-                }
-                
-                this.showHome();
-            }
-
-            addSelfToTree() {
-                const rootId = 'root_' + this.currentUser.id;
-                
-                const member = {
-                    id: rootId,
-                    ownerId: this.currentUser.id,
-                    userId: this.currentUser.id,
-                    name: this.currentUser.name,
-                    avatar: this.currentUser.avatar,
-                    relationshipType: 'You',
-                    degree: '0',
-                    isDeceased: false,
-                    addedAt: new Date().toISOString()
+                // Add self as root node
+                const rootMember = {
+                    id: 'member_' + Date.now(),
+                    ownerId: newUser.id,
+                    name,
+                    relationship: 'self',
+                    photo: newUser.avatar,
+                    birthYear: null,
+                    deceased: false,
+                    addedAt: new Date().toISOString(),
+                    baseMemberId: null,
+                    degree: '0'
                 };
+                this.treeMembers.push(rootMember);
                 
-                this.treeMembers.push(member);
                 this.saveData();
+                this.currentUser = newUser;
+                this.saveCurrentUser(newUser);
+                this.showMainApp();
             }
 
-            showHome() {
-                document.getElementById('homePage')?.classList.remove('hidden');
-                document.getElementById('fullTreePage')?.classList.add('hidden');
-                document.getElementById('profilePage')?.classList.add('hidden');
-                
-                this.setActiveTab('homeTab');
-                this.renderTree('homeTreeView');
-                this.renderPosts();
+            switchTab(tabName) {
+                // Update nav tabs
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`)?.classList.add('active');
+
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                document.getElementById(`${tabName}Tab`).classList.remove('hidden');
+
+                // Render content
+                if (tabName === 'home') {
+                    this.renderMiniTree();
+                    this.renderPosts();
+                } else if (tabName === 'tree') {
+                    this.renderFullTree();
+                } else if (tabName === 'profile') {
+                    this.renderProfile();
+                }
             }
 
-            showFullTree() {
-                document.getElementById('homePage')?.classList.add('hidden');
-                document.getElementById('fullTreePage')?.classList.remove('hidden');
-                document.getElementById('profilePage')?.classList.add('hidden');
-                
-                this.setActiveTab('treeTab');
-                this.renderTree('fullTreeView');
-            }
-
-            showProfile() {
-                document.getElementById('homePage')?.classList.add('hidden');
-                document.getElementById('fullTreePage')?.classList.add('hidden');
-                document.getElementById('profilePage')?.classList.remove('hidden');
-                
-                this.setActiveTab('profileTab');
-                this.renderProfile();
-            }
-
-            setActiveTab(tabId) {
-                document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-                document.getElementById(tabId)?.classList.add('active');
-            }
-
-            renderTree(containerId) {
-                const container = document.getElementById(containerId);
+            renderMiniTree() {
+                const container = document.getElementById('miniTreeView');
                 if (!container) return;
-
-                const userTree = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
                 
-                if (userTree.length === 0) {
+                const userMembers = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
+                
+                if (userMembers.length === 0) {
                     container.innerHTML = `
-                        <div class="empty-state">
-                            <div style="font-size: 4em; margin-bottom: 16px; opacity: 0.3;">🌳</div>
-                            <h2>Start Your Family Tree</h2>
-                            <p>Add family members to begin</p>
+                        <div class="add-member-card" onclick="app.showAddMember()">
+                            <div class="icon">👨‍👩‍👧‍👦</div>
+                            <h3>Build Your Family Tree</h3>
+                            <p style="color: var(--text-light); margin-top: 8px;">Start adding your family members</p>
                         </div>
                     `;
                     return;
                 }
 
-                const root = userTree.find(m => m.degree === '0');
-                if (!root) return;
+                // Simple layout for mini tree
+                const rootMember = userMembers.find(m => m.relationship === 'self');
+                if (!rootMember) return;
 
-                // Position nodes
-                const positions = {};
-                positions[root.id] = { x: 400, y: 300 };
+                let html = `
+                    <div class="tree-node root-node" style="left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                        <img src="${rootMember.photo}" class="node-avatar">
+                        <div class="node-name">${rootMember.name}</div>
+                        <div class="node-relation">You</div>
+                    </div>
+                `;
 
-                // Parents (top)
-                const parents = userTree.filter(m => m.degree.startsWith('-1'));
-                parents.forEach((p, i) => {
-                    positions[p.id] = { x: 300 + (i * 200), y: 100 };
-                });
-
-                // Spouse (right)
-                const spouse = userTree.find(m => m.degree === '0.spouse');
-                if (spouse) {
-                    positions[spouse.id] = { x: 550, y: 300 };
-                }
-
-                // Siblings (left)
-                const siblings = userTree.filter(m => m.degree.match(/^0\.[a-z]$/));
-                siblings.forEach((s, i) => {
-                    positions[s.id] = { x: 150, y: 200 + (i * 80) };
-                });
-
-                // Children (bottom)
-                const children = userTree.filter(m => m.degree.match(/^1\.\d+$/));
-                children.forEach((c, i) => {
-                    positions[c.id] = { x: 250 + (i * 150), y: 500 };
-                });
-
-                // Create SVG lines
-                let svg = '<svg class="tree-svg" width="800" height="600">';
-                
-                // Draw lines from root to relatives
-                parents.forEach(p => {
-                    svg += this.drawLine(positions[root.id], positions[p.id]);
-                });
-                
-                if (spouse) {
-                    svg += this.drawLine(positions[root.id], positions[spouse.id]);
-                }
-                
-                siblings.forEach(s => {
-                    svg += this.drawLine(positions[root.id], positions[s.id]);
-                });
-                
-                children.forEach(c => {
-                    svg += this.drawLine(positions[root.id], positions[c.id]);
-                });
-                
-                svg += '</svg>';
-
-                // Create nodes
-                let html = '<div class="mind-map-tree">' + svg + '<div class="tree-nodes-container">';
-                
-                userTree.forEach(member => {
-                    if (positions[member.id]) {
-                        html += this.renderNode(member, positions[member.id], member.degree === '0');
-                    }
-                });
-                
-                html += '</div></div>';
                 container.innerHTML = html;
             }
 
-            drawLine(from, to) {
-                return `<line x1="${from.x + 25}" y1="${from.y + 25}" x2="${to.x + 25}" y2="${to.y + 25}" 
-                        stroke="#e8e8e8" stroke-width="2" />`;
-            }
-
-            renderNode(person, position, isRoot) {
-                const deceasedClass = person.isDeceased ? 'deceased' : '';
-                const rootClass = isRoot ? 'root' : '';
+            renderFullTree() {
+                const container = document.getElementById('fullTreeView');
+                if (!container) return;
                 
-                return `
-                    <div class="tree-node ${deceasedClass} ${rootClass}" 
-                         style="left: ${position.x}px; top: ${position.y}px;"
-                         data-id="${person.id}"
-                         oncontextmenu="app.showContextMenu(event, '${person.id}'); return false;">
-                        <img src="${person.avatar}" class="tree-node-avatar" alt="${person.name}">
-                        <div class="tree-node-info">
-                            <div class="tree-node-name">${person.name}</div>
-                            <div class="tree-node-relation">${person.relationshipType}</div>
-                            <div class="tree-node-degree">Degree: ${person.degree}</div>
+                const userMembers = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
+                
+                if (userMembers.length === 0) {
+                    container.innerHTML = `
+                        <div class="add-member-card" onclick="app.showAddMember()">
+                            <div class="icon">👨‍👩‍👧‍👦</div>
+                            <h3>Build Your Family Tree</h3>
+                            <p style="color: var(--text-light); margin-top: 8px;">Start adding your family members</p>
                         </div>
+                    `;
+                    return;
+                }
+
+                // Enhanced tree layout
+                const rootMember = userMembers.find(m => m.relationship === 'self');
+                if (!rootMember) return;
+
+                let html = `
+                    <div class="tree-node root-node" style="left: 400px; top: 300px;">
+                        <img src="${rootMember.photo}" class="node-avatar">
+                        <div class="node-name">${rootMember.name}</div>
+                        <div class="node-relation">You</div>
                     </div>
                 `;
-            }
 
-            showContextMenu(event, nodeId) {
-                event.preventDefault();
-                event.stopPropagation();
-                
-                this.contextNode = nodeId;
-                const menu = document.getElementById('contextMenu');
-                
-                menu.style.left = event.pageX + 'px';
-                menu.style.top = event.pageY + 'px';
-                menu.classList.add('active');
-            }
-
-            contextAddChild() {
-                this.selectedBaseNode = this.contextNode;
-                document.getElementById('baseNodeSelect').value = this.contextNode;
-                document.getElementById('familyMemberRelationship').value = 'son';
-                this.showAddFamilyMember();
-            }
-
-            contextAddSpouse() {
-                this.selectedBaseNode = this.contextNode;
-                document.getElementById('baseNodeSelect').value = this.contextNode;
-                document.getElementById('familyMemberRelationship').value = 'wife';
-                this.showAddFamilyMember();
-            }
-
-            contextAddSibling() {
-                this.selectedBaseNode = this.contextNode;
-                document.getElementById('baseNodeSelect').value = this.contextNode;
-                document.getElementById('familyMemberRelationship').value = 'brother';
-                this.showAddFamilyMember();
-            }
-
-            contextAddParent() {
-                this.selectedBaseNode = this.contextNode;
-                document.getElementById('baseNodeSelect').value = this.contextNode;
-                document.getElementById('familyMemberRelationship').value = 'father';
-                this.showAddFamilyMember();
-            }
-
-            contextMakeCenter() {
-                const member = this.treeMembers.find(m => m.id === this.contextNode);
-                if (member) {
-                    // Recalculate degrees with this person as center
-                    this.recalculateDegreesFromNode(this.contextNode);
-                    this.saveData();
-                    this.renderTree('homeTreeView');
-                    this.renderTree('fullTreeView');
-                }
-                document.getElementById('contextMenu').classList.remove('active');
-            }
-
-            contextRemove() {
-                const member = this.treeMembers.find(m => m.id === this.contextNode);
-                if (member && member.degree !== '0') {
-                    if (confirm(`Remove ${member.name} from family tree?`)) {
-                        this.treeMembers = this.treeMembers.filter(m => m.id !== this.contextNode);
-                        this.saveData();
-                        this.renderTree('homeTreeView');
-                        this.renderTree('fullTreeView');
-                    }
-                }
-                document.getElementById('contextMenu').classList.remove('active');
-            }
-
-            recalculateDegreesFromNode(newCenterId) {
-                // This would require complex logic to recalculate all degrees
-                // For now, just update the selected node to degree 0
-                const userTree = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
-                userTree.forEach(member => {
-                    if (member.id === newCenterId) {
-                        member.degree = '0';
-                    }
+                // Add related members in a circle around root
+                const relatives = userMembers.filter(m => m.relationship !== 'self');
+                relatives.forEach((member, index) => {
+                    const angle = (index / relatives.length) * 2 * Math.PI;
+                    const radius = 200;
+                    const x = 400 + Math.cos(angle) * radius;
+                    const y = 300 + Math.sin(angle) * radius;
+                    
+                    html += `
+                        <div class="tree-node" style="left: ${x}px; top: ${y}px; transform: translate(-50%, -50%);">
+                            <img src="${member.photo}" class="node-avatar">
+                            <div class="node-name">${member.name}</div>
+                            <div class="node-relation">${this.formatRelationshipType(member.relationship)}</div>
+                        </div>
+                    `;
                 });
+
+                container.innerHTML = html;
             }
 
-            showAddFamilyMember() {
-                // Populate base node selector
-                const select = document.getElementById('baseNodeSelect');
-                const userTree = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
-                
-                select.innerHTML = '<option value="">Select person...</option>';
-                userTree.forEach(member => {
-                    const option = document.createElement('option');
-                    option.value = member.id;
-                    option.textContent = `${member.name} (${member.relationshipType})`;
-                    if (this.selectedBaseNode === member.id) {
-                        option.selected = true;
-                    }
-                    select.appendChild(option);
-                });
-                
-                document.getElementById('addFamilyMemberModal')?.classList.add('active');
+            showAddMember() {
+                document.getElementById('addMemberModal')?.classList.add('active');
             }
 
-            closeAddFamilyMember() {
-                document.getElementById('addFamilyMemberModal')?.classList.remove('active');
+            closeAddMember() {
+                document.getElementById('addMemberModal')?.classList.remove('active');
                 this.resetFamilyMemberForm();
             }
 
-            saveFamilyMember() {
-                const name = document.getElementById('familyMemberName').value.trim();
-                const relationship = document.getElementById('familyMemberRelationship').value;
-                const baseNodeId = document.getElementById('baseNodeSelect').value;
-                const birthYear = document.getElementById('familyMemberBirthYear').value;
-                const isDeceased = document.getElementById('familyMemberDeceased').checked;
-
-                if (!name || !relationship) {
-                    alert('Please enter name and relationship');
-                    return;
+            handleFamilyMemberPhoto(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.currentFamilyMemberPhoto = e.target.result;
+                        document.getElementById('familyMemberPhotoPreview').src = e.target.result;
+                        document.getElementById('familyMemberPhotoPreview').style.display = 'block';
+                        document.getElementById('familyMemberPhotoPlaceholder').style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
                 }
-
-                if (!baseNodeId) {
-                    alert('Please select a base person');
-                    return;
-                }
-
-                const avatar = this.currentFamilyMemberPhoto || this.getDefaultAvatar(name);
-                const degree = this.calculateDegree(baseNodeId, relationship);
-
-                const member = {
-                    id: 'member_' + Date.now(),
-                    ownerId: this.currentUser.id,
-                    userId: null,
-                    name: name,
-                    avatar: avatar,
-                    relationshipType: this.formatRelationshipType(relationship),
-                    degree: degree,
-                    birthYear: birthYear || null,
-                    isDeceased: isDeceased,
-                    addedAt: new Date().toISOString()
-                };
-
-                this.treeMembers.push(member);
-                this.saveData();
-                this.closeAddFamilyMember();
-                this.renderTree('homeTreeView');
-                this.renderTree('fullTreeView');
             }
 
-            calculateDegree(baseNodeId, relationship) {
-                const baseNode = this.treeMembers.find(m => m.id === baseNodeId);
-                if (!baseNode) return '0';
+            handlePostPhoto(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.currentPostPhoto = e.target.result;
+                        document.getElementById('postPhotoImg').src = e.target.result;
+                        document.getElementById('postPhotoPreview')?.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
 
-                const baseDegree = baseNode.degree;
-                const userTree = this.treeMembers.filter(m => m.ownerId === this.currentUser.id);
+            handleProfilePhotoUpload(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.currentUser.avatar = e.target.result;
+                        document.getElementById('profileAvatar').src = e.target.result;
+                        document.getElementById('navAvatar').src = e.target.result;
+                        
+                        const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+                        if (userIndex > -1) {
+                            this.users[userIndex].avatar = e.target.result;
+                        }
+                        
+                        this.saveData();
+                        this.saveCurrentUser(this.currentUser);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
 
-                // Calculate based on base node's degree and relationship
-                if (baseDegree === '0') {
-                    // Adding to root
-                    switch(relationship) {
-                        case 'father':
-                        case 'mother':
-                            const parentCount = userTree.filter(m => m.degree.startsWith('-1')).length;
-                            return '-1' + (parentCount > 0 ? '.' + String.fromCharCode(97 + parentCount) : '');
-                        
-                        case 'husband':
-                        case 'wife':
-                            return '0.spouse';
-                        
-                        case 'son':
-                        case 'daughter':
-                            const childCount = userTree.filter(m => m.degree.match(/^1\.\d+$/)).length;
-                            return '1.' + (childCount + 1);
-                        
-                        case 'brother':
-                        case 'sister':
-                            const siblingCount = userTree.filter(m => m.degree.match(/^0\.[a-z]$/)).length;
-                            return '0.' + String.fromCharCode(97 + siblingCount);
-                    }
+            addFamilyMember() {
+                const name = document.getElementById('familyMemberName').value.trim();
+                const relationship = document.getElementById('familyMemberRelationship').value;
+                const birthYear = document.getElementById('familyMemberBirthYear').value;
+                const deceased = document.getElementById('familyMemberDeceased').checked;
+
+                if (!name || !relationship) {
+                    alert('Please fill in required fields');
+                    return;
+                }
+
+                const rootMember = this.treeMembers.find(m => 
+                    m.ownerId === this.currentUser.id && m.relationship === 'self'
+                );
+
+                const newMember = {
+                    id: 'member_' + Date.now(),
+                    ownerId: this.currentUser.id,
+                    name,
+                    relationship,
+                    photo: this.currentFamilyMemberPhoto || this.getDefaultAvatar(name),
+                    birthYear: birthYear || null,
+                    deceased,
+                    addedAt: new Date().toISOString(),
+                    baseMemberId: rootMember ? rootMember.id : null,
+                    degree: this.calculateDegree(rootMember, relationship)
+                };
+
+                this.treeMembers.push(newMember);
+                this.saveData();
+                this.closeAddMember();
+                
+                if (this.currentTab === 'tree') {
+                    this.renderFullTree();
                 } else {
-                    // Adding to non-root node - calculate relative to base
+                    this.renderMiniTree();
+                }
+            }
+
+            calculateDegree(baseMember, relationship) {
+                if (!baseMember) return '0';
+                
+                const baseDegree = baseMember.degree || '0';
+                
+                if (baseDegree === '0') {
                     switch(relationship) {
                         case 'son':
                         case 'daughter':
@@ -1559,7 +1357,11 @@
 
             logout() {
                 if (confirm('Are you sure you want to logout?')) {
-                    localStorage.removeItem('rootsCurrentUser');
+                    try {
+                        localStorage.removeItem('rootsCurrentUser');
+                    } catch (e) {
+                        console.error('Error during logout:', e);
+                    }
                     location.reload();
                 }
             }
@@ -1580,20 +1382,44 @@
             }
 
             saveData() {
-                localStorage.setItem('rootsUsers', JSON.stringify(this.users));
-                localStorage.setItem('rootsPosts', JSON.stringify(this.posts));
-                localStorage.setItem('rootsTreeMembers', JSON.stringify(this.treeMembers));
+                try {
+                    localStorage.setItem('rootsUsers', JSON.stringify(this.users));
+                    localStorage.setItem('rootsPosts', JSON.stringify(this.posts));
+                    localStorage.setItem('rootsTreeMembers', JSON.stringify(this.treeMembers));
+                } catch (e) {
+                    console.error('Error saving data:', e);
+                    this.showError('Could not save data. Storage may be full.');
+                }
             }
 
             loadData() {
-                this.users = JSON.parse(localStorage.getItem('rootsUsers') || '[]');
-                this.posts = JSON.parse(localStorage.getItem('rootsPosts') || '[]');
-                this.treeMembers = JSON.parse(localStorage.getItem('rootsTreeMembers') || '[]');
+                try {
+                    this.users = JSON.parse(localStorage.getItem('rootsUsers') || '[]');
+                    this.posts = JSON.parse(localStorage.getItem('rootsPosts') || '[]');
+                    this.treeMembers = JSON.parse(localStorage.getItem('rootsTreeMembers') || '[]');
+                } catch (e) {
+                    console.error('Error loading data:', e);
+                    this.users = [];
+                    this.posts = [];
+                    this.treeMembers = [];
+                }
             }
         }
 
         // Initialize app
-        const app = new RootsApp();
+        let app;
+        try {
+            app = new RootsApp();
+        } catch (e) {
+            console.error('Failed to initialize app:', e);
+            document.body.innerHTML = `
+                <div style="padding: 40px; text-align: center; font-family: sans-serif;">
+                    <h2>Failed to Load Application</h2>
+                    <p style="color: #666; margin-top: 16px;">Please try refreshing the page or check the browser console for details.</p>
+                    <p style="color: #666; margin-top: 8px;">Error: ${e.message}</p>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
