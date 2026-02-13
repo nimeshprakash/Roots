@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FamilyTree Connect - Build Your Family Tree</title>
-    <meta property="og:title" content="FamilyTree Connect">
-    <meta property="og:description" content="Build and share your family tree with Facebook friends">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630/667eea/ffffff?text=FamilyTree+Connect">
-    <meta property="og:url" content="https://yourapp.com">
+    <title>Roots - Your Family Social Network</title>
     <style>
         * {
             margin: 0;
@@ -15,503 +11,434 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #2d2d2d;
+            --secondary: #666666;
+            --bg: #ffffff;
+            --card: #fafafa;
+            --border: #e8e8e8;
+            --hover: #f5f5f5;
+            --text: #1a1a1a;
+            --text-light: #999999;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
         }
 
-        /* Login Screen */
-        .login-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .login-container {
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 450px;
-            width: 100%;
-        }
-
-        .app-logo {
-            font-size: 5em;
-            margin-bottom: 20px;
-        }
-
-        .login-container h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 15px;
-        }
-
-        .login-subtitle {
-            color: #666;
-            font-size: 1.1em;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
-        .fb-login-btn {
-            background: #1877f2;
-            color: white;
-            padding: 16px 40px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
-        }
-
-        .fb-login-btn:hover {
-            background: #0c63d4;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
-        }
-
-        .fb-icon {
-            font-size: 24px;
-        }
-
-        .features {
-            margin-top: 40px;
-            text-align: left;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        .feature-icon {
-            font-size: 24px;
-        }
-
-        /* Main App */
-        .app-container {
-            display: none;
-            padding: 20px;
-        }
-
-        .app-container.active {
-            display: block;
-        }
-
-        .header {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 3px solid #667eea;
-        }
-
-        .user-info h3 {
-            color: #333;
-            font-size: 1.1em;
-        }
-
-        .user-info p {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f2f5;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e4e6eb;
-        }
-
-        .btn-logout {
-            background: #ff4444;
-            color: white;
-        }
-
-        .btn-logout:hover {
-            background: #cc0000;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .sidebar {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        /* Top Navigation */
+        .navbar {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0 40px;
             position: sticky;
-            top: 20px;
-        }
-
-        .sidebar h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .stats {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 0.95em;
-        }
-
-        .stat-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-value {
-            font-weight: 700;
-            font-size: 1.3em;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .fb-search-container {
-            position: relative;
-        }
-
-        .fb-search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            margin-top: 5px;
-            max-height: 200px;
-            overflow-y: auto;
+            top: 0;
             z-index: 100;
-            display: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .fb-search-results.active {
-            display: block;
-        }
-
-        .fb-search-item {
-            padding: 12px;
-            cursor: pointer;
+        .nav-content {
+            max-width: 1800px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #f0f0f0;
+            height: 60px;
         }
 
-        .fb-search-item:hover {
-            background: #f8f9fa;
-        }
-
-        .fb-search-item img {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-        }
-
-        .tree-container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow-x: auto;
-            min-height: 600px;
-        }
-
-        .tree-header {
+        .nav-logo {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .tree-header h2 {
-            color: #333;
-            font-size: 1.8em;
-        }
-
-        .view-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .tree-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 50px;
-            padding: 30px;
-        }
-
-        .generation {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            position: relative;
-        }
-
-        .generation-label {
-            position: absolute;
-            left: -80px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #667eea;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85em;
-            white-space: nowrap;
-        }
-
-        .person-card {
-            background: white;
-            border: 3px solid #667eea;
-            padding: 20px;
-            border-radius: 15px;
-            min-width: 200px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .person-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-        }
-
-        .person-card.parent {
-            border-color: #4facfe;
-        }
-
-        .person-card.child {
-            border-color: #43e97b;
-        }
-
-        .person-card.sibling {
-            border-color: #fa709a;
-        }
-
-        .person-card.spouse {
-            border-color: #fee140;
-        }
-
-        .person-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            border: 3px solid #667eea;
-        }
-
-        .person-card.parent .person-avatar {
-            border-color: #4facfe;
-        }
-
-        .person-card.child .person-avatar {
-            border-color: #43e97b;
-        }
-
-        .person-card.sibling .person-avatar {
-            border-color: #fa709a;
-        }
-
-        .person-card.spouse .person-avatar {
-            border-color: #fee140;
-        }
-
-        .person-name {
-            font-size: 1.2em;
+            gap: 12px;
+            font-size: 1.5em;
             font-weight: 700;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .person-relationship {
-            background: #f0f2f5;
-            color: #666;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-
-        .person-info {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .fb-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: #1877f2;
-            text-decoration: none;
-            font-size: 0.9em;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .fb-link:hover {
-            text-decoration: underline;
-        }
-
-        .card-actions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .card-btn {
-            background: rgba(0,0,0,0.1);
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            color: var(--primary);
+            margin-right: 40px;
             cursor: pointer;
-            font-size: 16px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .nav-tab {
+            padding: 8px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: background 0.2s;
         }
 
-        .card-btn:hover {
-            background: rgba(0,0,0,0.2);
+        .nav-btn:hover {
+            background: var(--hover);
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: #999;
+        .user-avatar-small {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+            border: 1px solid var(--border);
         }
 
-        .empty-state-icon {
-            font-size: 5em;
-            margin-bottom: 20px;
+        /* Main Container */
+        .main-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0;
         }
 
-        .empty-state-text {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #666;
+        /* Home Page Split Layout */
+        .home-split {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            height: calc(100vh - 60px);
+            gap: 0;
         }
 
-        .connection-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .home-tree-section {
+            border-right: 1px solid var(--border);
+            overflow: auto;
+            padding: 40px;
+            background: var(--bg);
+        }
+
+        .home-feed-section {
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--card);
+        }
+
+        /* Tree Styles */
+        .tree-view-container {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: -1;
+            overflow: auto;
+            padding: 20px;
         }
 
+        .fishbone-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            min-width: fit-content;
+        }
+
+        .tree-generation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .tree-row {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .tree-family-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .tree-couple {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            position: relative;
+        }
+
+        .tree-children-row {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        /* Tree Node */
+        .tree-node {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tree-node-content {
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tree-node-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .tree-node-info {
+            margin-top: 8px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tree-node:hover .tree-node-avatar {
+            width: 70px;
+            height: 70px;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .tree-node:hover .tree-node-info {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        .tree-node-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .tree-node-relation {
+            font-size: 11px;
+            color: var(--secondary);
+        }
+
+        .tree-node-degree {
+            font-size: 10px;
+            color: var(--text-light);
+            font-family: monospace;
+        }
+
+        .tree-node.deceased .tree-node-avatar {
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+
+        .tree-node.root .tree-node-avatar {
+            width: 60px;
+            height: 60px;
+            border-color: var(--primary);
+            border-width: 3px;
+        }
+
+        .tree-node.root:hover .tree-node-avatar {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Connection Lines */
+        .vertical-connector {
+            width: 2px;
+            height: 30px;
+            background: var(--border);
+            margin: 0 auto;
+        }
+
+        .horizontal-connector {
+            height: 2px;
+            background: var(--border);
+            position: absolute;
+            top: 25px;
+        }
+
+        .spouse-connector {
+            width: 20px;
+            height: 2px;
+            background: var(--border);
+        }
+
+        /* Add Node Button */
+        .add-node-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px dashed var(--border);
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 24px;
+            color: var(--text-light);
+        }
+
+        .add-node-btn:hover {
+            border-color: var(--primary);
+            background: var(--bg);
+            color: var(--primary);
+        }
+
+        /* Feed Styles */
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .post-creator {
+            display: flex;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .post-input {
+            flex: 1;
+            background: var(--card);
+            padding: 12px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .post-input:hover {
+            background: var(--hover);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .post-action-btn {
+            flex: 1;
+            padding: 8px;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .post-action-btn:hover {
+            background: var(--hover);
+            border-color: var(--primary);
+        }
+
+        /* Post */
+        .post-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .post-author-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .post-time {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .post-content {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .post-buttons {
+            display: flex;
+            gap: 4px;
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+        }
+
+        .post-btn {
+            flex: 1;
+            padding: 8px;
+            background: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .post-btn:hover {
+            background: var(--hover);
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -519,7 +446,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -530,746 +457,1101 @@
         }
 
         .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 500px;
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid var(--border);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .modal-header h3 {
-            font-size: 1.8em;
-            color: #333;
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: 600;
         }
 
-        .close-modal {
+        .close-btn {
             background: none;
             border: none;
-            font-size: 30px;
+            font-size: 28px;
             cursor: pointer;
-            color: #999;
+            color: var(--text-light);
+            line-height: 1;
         }
 
-        .share-options {
-            display: grid;
-            gap: 15px;
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            background: var(--bg);
         }
 
-        .share-btn {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: white;
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            text-align: left;
         }
 
-        .share-btn:hover {
-            border-color: #667eea;
-            background: #f8f9fa;
+        .btn-primary {
+            background: var(--primary);
+            color: white;
         }
 
-        .share-icon {
-            font-size: 30px;
+        .btn-primary:hover {
+            background: #1a1a1a;
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Full Tree View */
+        .full-tree-view {
+            padding: 40px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .tree-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: var(--hover);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        /* Context Menu */
+        .context-menu {
+            position: absolute;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+        }
+
+        .context-menu.active {
+            display: block;
+        }
+
+        .context-menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .context-menu-item:hover {
+            background: var(--hover);
+        }
+
+        /* Profile Page */
+        .profile-page {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--border);
+            margin: 0 auto 20px;
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        @media (max-width: 1200px) {
+            .home-split {
                 grid-template-columns: 1fr;
             }
-
-            .sidebar {
-                position: static;
-            }
-
-            .generation-label {
-                position: static;
-                transform: none;
-                margin-bottom: 20px;
+            
+            .home-tree-section {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                height: 50vh;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-screen">
-        <div class="login-container">
-            <div class="app-logo">👨‍👩‍👧‍👦</div>
-            <h1>FamilyTree Connect</h1>
-            <p class="login-subtitle">Build and share your family tree with friends and family on Facebook</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo" onclick="app.showHome()">
+                <svg width="32" height="32" viewBox="0 0 100 100">
+                    <rect x="42" y="60" width="16" height="30" fill="#2d2d2d" rx="2"/>
+                    <path d="M 35 90 Q 30 95 25 90 M 50 90 L 50 95 M 65 90 Q 70 95 75 90" stroke="#2d2d2d" stroke-width="3" fill="none"/>
+                    <circle cx="50" cy="35" r="20" fill="#2d2d2d"/>
+                    <circle cx="30" cy="45" r="15" fill="#4d4d4d"/>
+                    <circle cx="70" cy="45" r="15" fill="#4d4d4d"/>
+                    <circle cx="40" cy="30" r="2" fill="white"/>
+                    <circle cx="50" cy="35" r="2" fill="white"/>
+                    <circle cx="60" cy="30" r="2" fill="white"/>
+                </svg>
+                <span>Roots</span>
+            </div>
             
-            <button class="fb-login-btn" onclick="app.loginWithFacebook()">
-                <span class="fb-icon">📘</span>
-                Continue with Facebook
-            </button>
+            <div class="nav-tabs">
+                <button class="nav-tab active" id="homeTab" onclick="app.showHome()">Home</button>
+                <button class="nav-tab" id="treeTab" onclick="app.showFullTree()">Family Tree</button>
+                <button class="nav-tab" id="profileTab" onclick="app.showProfile()">Profile</button>
+            </div>
 
-            <div class="features">
-                <div class="feature-item">
-                    <span class="feature-icon">✨</span>
-                    <span>Connect with Facebook friends</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🌳</span>
-                    <span>Build multi-generational trees</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">📸</span>
-                    <span>Automatic profile photos</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🔗</span>
-                    <span>Share with family members</span>
-                </div>
+            <div class="nav-right">
+                <button class="nav-btn" onclick="app.showAddFamilyMember()" title="Add Family Member">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                </button>
+                <button class="nav-btn" title="Notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                </button>
+                <img id="navAvatar" class="user-avatar-small" onclick="app.showProfile()" src="">
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- Main App -->
-    <div id="appContainer" class="app-container">
-        <div class="header">
-            <div class="header-left">
-                <h1 style="color: #667eea; font-size: 1.8em;">👨‍👩‍👧‍👦 FamilyTree Connect</h1>
-                <div class="user-profile">
-                    <img id="userAvatar" src="" alt="Profile" class="user-avatar">
-                    <div class="user-info">
-                        <h3 id="userName">Loading...</h3>
-                        <p id="userEmail"></p>
-                    </div>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Home Page -->
+        <div id="homePage" class="home-split">
+            <div class="home-tree-section">
+                <div class="tree-view-container" id="homeTreeView">
+                    <!-- Tree will be rendered here -->
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="btn btn-primary" onclick="app.showShareModal()">
-                    📤 Share Tree
-                </button>
-                <button class="btn btn-secondary" onclick="app.exportTree()">
-                    💾 Export
-                </button>
-                <button class="btn btn-logout" onclick="app.logout()">
-                    🚪 Logout
-                </button>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div class="sidebar">
-                <h2>Add Family Member</h2>
-                
-                <div class="stats">
-                    <div class="stat-row">
-                        <span>Total Members</span>
-                        <span class="stat-value" id="totalMembers">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>Generations</span>
-                        <span class="stat-value" id="totalGenerations">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span>Connected via FB</span>
-                        <span class="stat-value" id="fbConnected">0</span>
-                    </div>
-                </div>
-
-                <form id="addMemberForm">
-                    <div class="form-group">
-                        <label>Add from Facebook Friends</label>
-                        <div class="fb-search-container">
-                            <input 
-                                type="text" 
-                                id="fbSearch" 
-                                placeholder="Search Facebook friends..."
-                                autocomplete="off">
-                            <div id="fbSearchResults" class="fb-search-results"></div>
+            <div class="home-feed-section">
+                <div class="feed">
+                    <!-- Post Creator -->
+                    <div class="card">
+                        <div class="post-creator">
+                            <img id="postCreatorAvatar" class="avatar" src="">
+                            <div class="post-input" onclick="app.showCreatePost()">
+                                What's on your mind?
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action-btn" onclick="app.showCreatePost()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                </svg>
+                                Photo
+                            </button>
+                            <button class="post-action-btn" onclick="app.showAddFamilyMember()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                                </svg>
+                                Invite
+                            </button>
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin: 20px 0; color: #999;">
-                        — OR —
-                    </div>
-
-                    <div class="form-group">
-                        <label for="manualName">Manual Entry</label>
-                        <input type="text" id="manualName" placeholder="Full name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="relationship">Relationship *</label>
-                        <select id="relationship" required>
-                            <option value="">Select relationship...</option>
-                            <option value="root">Start of tree (Root)</option>
-                            <option value="parent">Parent</option>
-                            <option value="spouse">Spouse/Partner</option>
-                            <option value="child">Child</option>
-                            <option value="sibling">Sibling</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="relatedToGroup" style="display: none;">
-                        <label for="relatedTo">Related To *</label>
-                        <select id="relatedTo">
-                            <option value="">Select person...</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="birthYear">Birth Year (optional)</label>
-                        <input type="number" id="birthYear" placeholder="e.g., 1990" min="1900" max="2025">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        ✨ Add to Family Tree
-                    </button>
-                </form>
-            </div>
-
-            <div class="tree-container">
-                <div class="tree-header">
-                    <h2>Your Family Tree</h2>
-                    <div class="view-controls">
-                        <button class="btn btn-secondary" onclick="app.zoomIn()">🔍 Zoom In</button>
-                        <button class="btn btn-secondary" onclick="app.zoomOut()">🔍 Zoom Out</button>
-                        <button class="btn btn-secondary" onclick="app.resetZoom()">↺ Reset</button>
-                    </div>
-                </div>
-                <div id="treeView" class="tree-view">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🌳</div>
-                        <div class="empty-state-text">Your family tree is empty</div>
-                        <p>Add your first family member to get started!</p>
-                    </div>
+                    <!-- Posts -->
+                    <div id="postsContainer"></div>
                 </div>
             </div>
         </div>
+
+        <!-- Full Tree Page -->
+        <div id="fullTreePage" class="full-tree-view hidden">
+            <div class="tree-controls">
+                <button class="control-btn" onclick="app.zoomIn()">🔍 Zoom In</button>
+                <button class="control-btn" onclick="app.zoomOut()">🔍 Zoom Out</button>
+                <button class="control-btn" onclick="app.resetZoom()">↺ Reset</button>
+                <button class="control-btn" onclick="app.centerTree()">⊙ Center</button>
+            </div>
+            <div class="tree-view-container" id="fullTreeView">
+                <!-- Full tree will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="profile-page hidden">
+            <div class="profile-header">
+                <img id="profileAvatar" class="profile-avatar" src="" onclick="app.uploadProfilePhoto()">
+                <input type="file" id="profilePhotoInput" class="hidden" accept="image/*">
+                <h1 class="profile-name" id="profileName"></h1>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="familyCount">0</span>
+                        <span class="stat-label">Family Members</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="postCount">0</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="app.showAddFamilyMember()">Add Family Member</button>
+            </div>
+            <div class="feed" id="profilePosts"></div>
+        </div>
     </div>
 
-    <!-- Share Modal -->
-    <div id="shareModal" class="modal">
+    <!-- Add Family Member Modal -->
+    <div id="addFamilyMemberModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Share Your Family Tree</h3>
-                <button class="close-modal" onclick="app.closeShareModal()">×</button>
+                <h2 class="modal-title">Add Family Member</h2>
+                <button class="close-btn" onclick="app.closeAddFamilyMember()">×</button>
             </div>
-            <div class="share-options">
-                <button class="share-btn" onclick="app.shareToFacebook()">
-                    <span class="share-icon">📘</span>
-                    <div>
-                        <strong>Share on Facebook</strong>
-                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Post to your timeline</p>
+            
+            <div style="margin-bottom: 20px;">
+                <label>Photo (Optional)</label>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="position: relative;">
+                        <img id="familyMemberPhotoPreview" src="" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); display: none;">
+                        <div id="familyMemberPhotoPlaceholder" style="width: 80px; height: 80px; border-radius: 50%; background: var(--card); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 2em; color: var(--text-light);">
+                            👤
+                        </div>
                     </div>
+                    <input type="file" id="familyMemberPhotoInput" accept="image/*" class="hidden">
+                    <button class="btn-secondary" onclick="document.getElementById('familyMemberPhotoInput').click()">
+                        Choose Photo
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <label>Full Name *</label>
+                <input type="text" id="familyMemberName" placeholder="Enter name" required>
+            </div>
+
+            <div id="baseNodeSelection">
+                <label>Add to which family member?</label>
+                <select id="baseNodeSelect">
+                    <option value="">Select base person...</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Relationship *</label>
+                <select id="familyMemberRelationship" required>
+                    <option value="">Select relationship...</option>
+                    <optgroup label="Parents">
+                        <option value="father">Father</option>
+                        <option value="mother">Mother</option>
+                    </optgroup>
+                    <optgroup label="Spouse">
+                        <option value="husband">Husband</option>
+                        <option value="wife">Wife</option>
+                    </optgroup>
+                    <optgroup label="Children">
+                        <option value="son">Son</option>
+                        <option value="daughter">Daughter</option>
+                    </optgroup>
+                    <optgroup label="Siblings">
+                        <option value="brother">Brother</option>
+                        <option value="sister">Sister</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div>
+                <label>Birth Year (Optional)</label>
+                <input type="number" id="familyMemberBirthYear" placeholder="e.g., 1980" min="1900" max="2025">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="familyMemberDeceased" style="width: auto; margin: 0;">
+                    <span>This person is deceased</span>
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-primary" onclick="app.saveFamilyMember()">
+                    Add to Family Tree
                 </button>
-                <button class="share-btn" onclick="app.shareToMessenger()">
-                    <span class="share-icon">💬</span>
-                    <div>
-                        <strong>Share via Messenger</strong>
-                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Send to friends and family</p>
-                    </div>
-                </button>
-                <button class="share-btn" onclick="app.inviteFriends()">
-                    <span class="share-icon">👥</span>
-                    <div>
-                        <strong>Invite Friends</strong>
-                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Ask family to join and collaborate</p>
-                    </div>
-                </button>
-                <button class="share-btn" onclick="app.copyShareLink()">
-                    <span class="share-icon">🔗</span>
-                    <div>
-                        <strong>Copy Link</strong>
-                        <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Share anywhere</p>
-                    </div>
+                <button class="btn-secondary" onclick="app.closeAddFamilyMember()">
+                    Cancel
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Facebook SDK -->
+    <!-- Create Post Modal -->
+    <div id="createPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Post</h2>
+                <button class="close-btn" onclick="app.closeCreatePost()">×</button>
+            </div>
+            
+            <textarea id="postContent" placeholder="What's on your mind?" style="min-height: 120px; resize: vertical;"></textarea>
+            
+            <div style="margin: 16px 0;">
+                <input type="file" id="postPhotoInput" accept="image/*" class="hidden">
+                <button class="btn-secondary" onclick="document.getElementById('postPhotoInput').click()">
+                    Add Photo
+                </button>
+                <div id="postPhotoPreview" class="hidden" style="margin-top: 12px;">
+                    <img id="postPhotoImg" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="app.publishPost()">
+                Post
+            </button>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" onclick="app.contextAction('addChild')">Add Child</div>
+        <div class="context-menu-item" onclick="app.contextAction('addSpouse')">Add Spouse</div>
+        <div class="context-menu-item" onclick="app.contextAction('addSibling')">Add Sibling</div>
+        <div class="context-menu-item" onclick="app.contextAction('makeBase')">Make Base Node</div>
+        <div class="context-menu-item" onclick="app.contextAction('remove')">Remove</div>
+    </div>
+
     <script>
-        // Facebook SDK Configuration
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook App ID
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v18.0'
-            });
-
-            FB.AppEvents.logPageView();
-
-            // Check login status on load
-            FB.getLoginStatus(function(response) {
-                if (response.status === 'connected') {
-                    app.handleLoginSuccess(response);
-                }
-            });
-        };
-
-        // Load Facebook SDK
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-    <script>
-        class FamilyTreeApp {
+        class RootsApp {
             constructor() {
                 this.currentUser = null;
-                this.members = [];
-                this.fbFriends = [];
-                this.selectedFbUser = null;
+                this.users = [];
+                this.posts = [];
+                this.treeMembers = [];
+                this.currentPostPhoto = null;
+                this.currentFamilyMemberPhoto = null;
+                this.baseNodeId = null; // Root/starting node for tree
+                this.contextNode = null;
                 this.zoomLevel = 1;
                 this.init();
             }
 
             init() {
-                this.loadFromStorage();
+                this.loadData();
                 this.setupEventListeners();
+                this.checkAuth();
             }
 
             setupEventListeners() {
-                // Form submission
-                document.getElementById('addMemberForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.addMember();
+                document.getElementById('profilePhotoInput').addEventListener('change', (e) => {
+                    this.handleProfilePhotoUpload(e);
                 });
 
-                // Relationship change
-                document.getElementById('relationship').addEventListener('change', (e) => {
-                    this.updateRelatedToDropdown(e.target.value);
+                document.getElementById('postPhotoInput').addEventListener('change', (e) => {
+                    this.handlePostPhotoUpload(e);
                 });
 
-                // Facebook friend search
-                document.getElementById('fbSearch').addEventListener('input', (e) => {
-                    this.searchFacebookFriends(e.target.value);
+                document.getElementById('familyMemberPhotoInput').addEventListener('change', (e) => {
+                    this.handleFamilyMemberPhotoUpload(e);
                 });
 
-                // Click outside to close search results
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.fb-search-container')) {
-                        document.getElementById('fbSearchResults').classList.remove('active');
-                    }
+                // Close context menu on click outside
+                document.addEventListener('click', () => {
+                    document.getElementById('contextMenu').classList.remove('active');
                 });
             }
 
-            loginWithFacebook() {
-                FB.login((response) => {
-                    if (response.authResponse) {
-                        this.handleLoginSuccess(response);
-                    } else {
-                        alert('Login cancelled or not authorized');
-                    }
-                }, {
-                    scope: 'public_profile,email,user_friends',
-                    return_scopes: true
-                });
-            }
-
-            handleLoginSuccess(response) {
-                // Get user data
-                FB.api('/me', { fields: 'id,name,email,picture' }, (user) => {
-                    this.currentUser = {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        picture: user.picture.data.url
-                    };
-
-                    // Update UI
-                    document.getElementById('userName').textContent = user.name;
-                    document.getElementById('userEmail').textContent = user.email || '';
-                    document.getElementById('userAvatar').src = user.picture.data.url;
-
-                    // Show app, hide login
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('appContainer').classList.add('active');
-
-                    // Load friends
-                    this.loadFacebookFriends();
-
-                    // Render tree
-                    this.render();
-                });
-            }
-
-            loadFacebookFriends() {
-                // Note: This requires app review from Facebook to get user_friends permission
-                FB.api('/me/friends', { fields: 'id,name,picture' }, (response) => {
-                    if (response.data) {
-                        this.fbFriends = response.data;
-                    }
-                });
-
-                // For demo: Create mock friends if no real friends available
-                if (this.fbFriends.length === 0) {
-                    this.fbFriends = this.generateMockFriends();
-                }
-            }
-
-            generateMockFriends() {
-                // Mock data for demonstration
-                const names = ['John Smith', 'Sarah Johnson', 'Michael Brown', 'Emily Davis', 'David Wilson', 
-                              'Jessica Martinez', 'Robert Taylor', 'Mary Anderson', 'James Thomas', 'Jennifer White'];
-                return names.map((name, i) => ({
-                    id: `mock_${i}`,
-                    name: name,
-                    picture: { data: { url: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=667eea&color=fff` }}
-                }));
-            }
-
-            searchFacebookFriends(query) {
-                const results = document.getElementById('fbSearchResults');
-                
-                if (!query.trim()) {
-                    results.classList.remove('active');
-                    return;
-                }
-
-                const filtered = this.fbFriends.filter(friend => 
-                    friend.name.toLowerCase().includes(query.toLowerCase())
-                );
-
-                if (filtered.length === 0) {
-                    results.innerHTML = '<div style="padding: 15px; text-align: center; color: #999;">No friends found</div>';
-                    results.classList.add('active');
-                    return;
-                }
-
-                results.innerHTML = filtered.map(friend => `
-                    <div class="fb-search-item" onclick="app.selectFacebookFriend('${friend.id}')">
-                        <img src="${friend.picture.data.url}" alt="${friend.name}">
-                        <span>${friend.name}</span>
-                    </div>
-                `).join('');
-
-                results.classList.add('active');
-            }
-
-            selectFacebookFriend(friendId) {
-                const friend = this.fbFriends.find(f => f.id === friendId);
-                if (friend) {
-                    this.selectedFbUser = friend;
-                    document.getElementById('fbSearch').value = friend.name;
-                    document.getElementById('fbSearchResults').classList.remove('active');
-                    document.getElementById('manualName').value = '';
-                }
-            }
-
-            addMember() {
-                const relationship = document.getElementById('relationship').value;
-                const relatedTo = document.getElementById('relatedTo').value;
-                const birthYear = document.getElementById('birthYear').value;
-                const manualName = document.getElementById('manualName').value.trim();
-
-                let name, fbId, picture;
-
-                if (this.selectedFbUser) {
-                    name = this.selectedFbUser.name;
-                    fbId = this.selectedFbUser.id;
-                    picture = this.selectedFbUser.picture.data.url;
-                } else if (manualName) {
-                    name = manualName;
-                    fbId = null;
-                    picture = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=random`;
+            checkAuth() {
+                const stored = localStorage.getItem('rootsCurrentUser');
+                if (stored) {
+                    this.currentUser = JSON.parse(stored);
+                    this.showApp();
                 } else {
-                    alert('Please select a Facebook friend or enter a name manually');
-                    return;
+                    this.showLogin();
                 }
+            }
 
-                if (!relationship) {
-                    alert('Please select a relationship');
-                    return;
+            showLogin() {
+                // For demo, auto-create user
+                const demoUser = {
+                    id: 'user_demo',
+                    name: 'Demo User',
+                    email: 'demo@roots.com',
+                    avatar: this.getDefaultAvatar('Demo User'),
+                    joinedAt: new Date().toISOString()
+                };
+                
+                this.currentUser = demoUser;
+                this.users.push(demoUser);
+                localStorage.setItem('rootsCurrentUser', JSON.stringify(demoUser));
+                this.showApp();
+            }
+
+            showApp() {
+                document.getElementById('navAvatar').src = this.currentUser.avatar;
+                document.getElementById('postCreatorAvatar').src = this.currentUser.avatar;
+                
+                // Initialize tree if empty
+                if (this.treeMembers.length === 0) {
+                    this.addSelfToTree();
                 }
+                
+                this.showHome();
+            }
 
-                if (relationship !== 'root' && !relatedTo) {
-                    alert('Please select who this person is related to');
-                    return;
-                }
+            showHome() {
+                document.getElementById('homePage').classList.remove('hidden');
+                document.getElementById('fullTreePage').classList.add('hidden');
+                document.getElementById('profilePage').classList.add('hidden');
+                
+                this.setActiveTab('homeTab');
+                this.renderHomeTree();
+                this.renderPosts();
+            }
 
+            showFullTree() {
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('fullTreePage').classList.remove('hidden');
+                document.getElementById('profilePage').classList.add('hidden');
+                
+                this.setActiveTab('treeTab');
+                this.renderFullTree();
+            }
+
+            showProfile() {
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('fullTreePage').classList.add('hidden');
+                document.getElementById('profilePage').classList.remove('hidden');
+                
+                this.setActiveTab('profileTab');
+                this.renderProfile();
+            }
+
+            setActiveTab(tabId) {
+                document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+            }
+
+            addSelfToTree() {
                 const member = {
-                    id: Date.now().toString(),
-                    name,
-                    fbId,
-                    picture,
-                    relationship,
-                    relatedTo: relationship === 'root' ? null : relatedTo,
-                    birthYear: birthYear || null,
-                    generation: this.calculateGeneration(relationship, relatedTo),
-                    addedBy: this.currentUser.id,
+                    id: 'root',
+                    userId: this.currentUser.id,
+                    name: this.currentUser.name,
+                    avatar: this.currentUser.avatar,
+                    relationshipType: 'You',
+                    degree: '0',
+                    isDeceased: false,
+                    parentId: null,
+                    spouseId: null,
                     addedAt: new Date().toISOString()
                 };
-
-                this.members.push(member);
-                this.saveToStorage();
-                this.render();
-
-                // Reset form
-                document.getElementById('addMemberForm').reset();
-                document.getElementById('fbSearch').value = '';
-                document.getElementById('relatedToGroup').style.display = 'none';
-                this.selectedFbUser = null;
+                
+                this.treeMembers.push(member);
+                this.baseNodeId = 'root';
+                this.saveData();
             }
 
-            calculateGeneration(relationship, relatedToId) {
-                if (relationship === 'root') return 0;
-                
-                const relatedPerson = this.members.find(m => m.id === relatedToId);
-                if (!relatedPerson) return 0;
+            calculateDegree(parentId, relationship) {
+                if (parentId === 'root' || !parentId) {
+                    switch(relationship) {
+                        case 'father':
+                        case 'mother':
+                            return '-1';
+                        case 'husband':
+                        case 'wife':
+                            return '0.spouse';
+                        case 'son':
+                        case 'daughter':
+                            return '1';
+                        case 'brother':
+                        case 'sister':
+                            return '0.sibling';
+                        default:
+                            return '0';
+                    }
+                }
 
+                const parent = this.treeMembers.find(m => m.id === parentId);
+                if (!parent) return '0';
+
+                const parentDegree = parent.degree;
+                
                 switch(relationship) {
-                    case 'parent':
-                        return relatedPerson.generation - 1;
-                    case 'child':
-                        return relatedPerson.generation + 1;
-                    case 'spouse':
-                    case 'sibling':
-                        return relatedPerson.generation;
+                    case 'father':
+                    case 'mother':
+                        // Parent of someone is one level up
+                        if (parentDegree === '0') return '-1';
+                        if (parentDegree.startsWith('-')) {
+                            const level = parseInt(parentDegree);
+                            return String(level - 1);
+                        }
+                        return parentDegree;
+                    
+                    case 'son':
+                    case 'daughter':
+                        // Child is one level down
+                        if (parentDegree === '0') {
+                            const siblings = this.treeMembers.filter(m => 
+                                m.parentId === parentId && 
+                                (m.relationshipType.includes('Son') || m.relationshipType.includes('Daughter'))
+                            );
+                            return '1.' + (siblings.length + 1);
+                        }
+                        return parentDegree + '.1';
+                    
+                    case 'husband':
+                    case 'wife':
+                        return parentDegree + '.spouse';
+                    
+                    case 'brother':
+                    case 'sister':
+                        const parts = parentDegree.split('.');
+                        const base = parts[0];
+                        const siblings = this.treeMembers.filter(m => 
+                            m.parentId === parent.parentId && 
+                            m.degree.startsWith(base + '.')
+                        );
+                        return base + '.' + String.fromCharCode(97 + siblings.length);
+                    
                     default:
-                        return 0;
+                        return parentDegree;
                 }
             }
 
-            updateRelatedToDropdown(relationship) {
-                const relatedToGroup = document.getElementById('relatedToGroup');
-                const relatedToSelect = document.getElementById('relatedTo');
-
-                if (relationship === 'root') {
-                    relatedToGroup.style.display = 'none';
-                    return;
-                }
-
-                relatedToGroup.style.display = 'block';
-                relatedToSelect.innerHTML = '<option value="">Select person...</option>';
-
-                this.members.forEach(member => {
-                    const option = document.createElement('option');
-                    option.value = member.id;
-                    option.textContent = member.name;
-                    relatedToSelect.appendChild(option);
-                });
+            renderHomeTree() {
+                this.renderTree('homeTreeView', false);
             }
 
-            deleteMember(id) {
-                if (confirm('Are you sure you want to remove this family member from the tree?')) {
-                    this.members = this.members.filter(m => m.id !== id);
-                    this.saveToStorage();
-                    this.render();
-                }
+            renderFullTree() {
+                this.renderTree('fullTreeView', true);
             }
 
-            render() {
-                const treeView = document.getElementById('treeView');
+            renderTree(containerId, fullView) {
+                const container = document.getElementById(containerId);
                 
-                if (this.members.length === 0) {
-                    treeView.innerHTML = `
+                if (this.treeMembers.length === 0) {
+                    container.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-state-icon">🌳</div>
-                            <div class="empty-state-text">Your family tree is empty</div>
-                            <p>Add your first family member to get started!</p>
+                            <h2>Start Your Family Tree</h2>
+                            <p>Add your first family member to begin</p>
                         </div>
                     `;
-                    this.updateStats();
                     return;
                 }
 
-                // Group by generation
-                const generations = {};
-                this.members.forEach(member => {
-                    if (!generations[member.generation]) {
-                        generations[member.generation] = [];
-                    }
-                    generations[member.generation].push(member);
-                });
+                // Build tree structure
+                const root = this.treeMembers.find(m => m.id === this.baseNodeId || m.id === 'root');
+                if (!root) return;
 
-                const sortedGenerations = Object.keys(generations).sort((a, b) => a - b);
+                let html = '<div class="fishbone-tree">';
+                html += this.renderFamilyGroup(root, fullView);
+                html += '</div>';
+
+                container.innerHTML = html;
+            }
+
+            renderFamilyGroup(person, fullView) {
+                let html = '<div class="tree-family-group">';
                 
-                let html = '';
-                sortedGenerations.forEach(gen => {
-                    const genLabel = this.getGenerationLabel(parseInt(gen));
-                    html += `<div class="generation">`;
-                    html += `<div class="generation-label">${genLabel}</div>`;
-                    generations[gen].forEach(member => {
-                        html += this.renderPersonCard(member);
+                // Parents row
+                const parents = this.treeMembers.filter(m => 
+                    this.getChildren(m.id).includes(person.id)
+                );
+                
+                if (parents.length > 0) {
+                    html += '<div class="tree-row">';
+                    parents.forEach(parent => {
+                        html += this.renderNode(parent);
                     });
                     html += '</div>';
-                });
-
-                treeView.innerHTML = html;
-                treeView.style.transform = `scale(${this.zoomLevel})`;
-                this.updateStats();
+                    html += '<div class="vertical-connector"></div>';
+                }
+                
+                // Current person and spouse
+                html += '<div class="tree-row">';
+                html += '<div class="tree-couple">';
+                html += this.renderNode(person);
+                
+                const spouse = this.getSpouse(person.id);
+                if (spouse) {
+                    html += '<div class="spouse-connector"></div>';
+                    html += this.renderNode(spouse);
+                } else if (fullView) {
+                    html += '<div class="spouse-connector"></div>';
+                    html += `<div class="add-node-btn" onclick="app.showAddSpouse('${person.id}')">+</div>`;
+                }
+                
+                html += '</div>';
+                html += '</div>';
+                
+                // Children row
+                const children = this.getChildren(person.id);
+                if (children.length > 0 || fullView) {
+                    html += '<div class="vertical-connector"></div>';
+                    html += '<div class="tree-children-row">';
+                    
+                    children.forEach(childId => {
+                        const child = this.treeMembers.find(m => m.id === childId);
+                        if (child) {
+                            html += this.renderNode(child);
+                        }
+                    });
+                    
+                    if (fullView && children.length < 6) {
+                        html += `<div class="add-node-btn" onclick="app.showAddChild('${person.id}')">+</div>`;
+                    }
+                    
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+                return html;
             }
 
-            getGenerationLabel(gen) {
-                if (gen === 0) return '🌟 Root';
-                if (gen < 0) return `👴 Gen ${Math.abs(gen)} (Ancestors)`;
-                return `👶 Gen +${gen} (Descendants)`;
-            }
-
-            renderPersonCard(member) {
-                const relationshipClass = member.relationship === 'root' ? '' : member.relationship;
-                const fbLink = member.fbId ? `https://facebook.com/${member.fbId}` : '#';
+            renderNode(person) {
+                const deceasedClass = person.isDeceased ? 'deceased' : '';
+                const rootClass = person.id === 'root' ? 'root' : '';
                 
                 return `
-                    <div class="person-card ${relationshipClass}">
-                        <div class="card-actions">
-                            ${member.fbId ? '<button class="card-btn" onclick="window.open(\'https://facebook.com/' + member.fbId + '\', \'_blank\')">📘</button>' : ''}
-                            <button class="card-btn" onclick="app.deleteMember('${member.id}')">🗑️</button>
+                    <div class="tree-node ${deceasedClass} ${rootClass}" 
+                         data-id="${person.id}"
+                         oncontextmenu="app.showContextMenu(event, '${person.id}'); return false;">
+                        <div class="tree-node-content">
+                            <img src="${person.avatar}" class="tree-node-avatar" alt="${person.name}">
+                            <div class="tree-node-info">
+                                <div class="tree-node-name">${person.name}</div>
+                                <div class="tree-node-relation">${person.relationshipType}</div>
+                                <div class="tree-node-degree">${person.degree}</div>
+                            </div>
                         </div>
-                        <img src="${member.picture}" alt="${member.name}" class="person-avatar">
-                        <div class="person-name">${member.name}</div>
-                        <div class="person-relationship">${this.formatRelationship(member.relationship)}</div>
-                        ${member.birthYear ? `<div class="person-info">Born: ${member.birthYear}</div>` : ''}
-                        ${member.fbId ? `<a href="${fbLink}" target="_blank" class="fb-link">📘 View on Facebook</a>` : ''}
                     </div>
                 `;
             }
 
-            formatRelationship(rel) {
-                const map = {
-                    root: 'Root Member',
-                    parent: 'Parent',
-                    child: 'Child',
-                    spouse: 'Spouse',
-                    sibling: 'Sibling'
-                };
-                return map[rel] || rel;
+            getChildren(personId) {
+                return this.treeMembers
+                    .filter(m => m.parentId === personId)
+                    .map(m => m.id);
             }
 
-            updateStats() {
-                document.getElementById('totalMembers').textContent = this.members.length;
-                const generations = new Set(this.members.map(m => m.generation));
-                document.getElementById('totalGenerations').textContent = generations.size;
-                const fbConnected = this.members.filter(m => m.fbId).length;
-                document.getElementById('fbConnected').textContent = fbConnected;
+            getSpouse(personId) {
+                return this.treeMembers.find(m => m.spouseId === personId);
+            }
+
+            showAddFamilyMember() {
+                // Populate base node selector
+                const select = document.getElementById('baseNodeSelect');
+                select.innerHTML = '<option value="">Select base person...</option>';
+                
+                this.treeMembers.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.textContent = `${member.name} (${member.relationshipType})`;
+                    select.appendChild(option);
+                });
+                
+                document.getElementById('addFamilyMemberModal').classList.add('active');
+            }
+
+            showAddChild(parentId) {
+                this.contextNode = parentId;
+                document.getElementById('baseNodeSelect').value = parentId;
+                document.getElementById('familyMemberRelationship').value = 'son';
+                this.showAddFamilyMember();
+            }
+
+            showAddSpouse(personId) {
+                this.contextNode = personId;
+                document.getElementById('baseNodeSelect').value = personId;
+                document.getElementById('familyMemberRelationship').value = 'wife';
+                this.showAddFamilyMember();
+            }
+
+            closeAddFamilyMember() {
+                document.getElementById('addFamilyMemberModal').classList.remove('active');
+                this.resetFamilyMemberForm();
+            }
+
+            handleFamilyMemberPhotoUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        this.currentFamilyMemberPhoto = event.target.result;
+                        document.getElementById('familyMemberPhotoPreview').src = this.currentFamilyMemberPhoto;
+                        document.getElementById('familyMemberPhotoPreview').style.display = 'block';
+                        document.getElementById('familyMemberPhotoPlaceholder').style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            saveFamilyMember() {
+                const name = document.getElementById('familyMemberName').value.trim();
+                const relationship = document.getElementById('familyMemberRelationship').value;
+                const baseNodeId = document.getElementById('baseNodeSelect').value;
+                const birthYear = document.getElementById('familyMemberBirthYear').value;
+                const isDeceased = document.getElementById('familyMemberDeceased').checked;
+
+                if (!name || !relationship || !baseNodeId) {
+                    alert('Please fill all required fields');
+                    return;
+                }
+
+                const avatar = this.currentFamilyMemberPhoto || this.getDefaultAvatar(name);
+                const degree = this.calculateDegree(baseNodeId, relationship);
+
+                const member = {
+                    id: 'member_' + Date.now(),
+                    userId: null,
+                    name: name,
+                    avatar: avatar,
+                    relationshipType: this.formatRelationshipType(relationship),
+                    degree: degree,
+                    birthYear: birthYear || null,
+                    isDeceased: isDeceased,
+                    parentId: ['son', 'daughter'].includes(relationship) ? baseNodeId : null,
+                    spouseId: ['husband', 'wife'].includes(relationship) ? baseNodeId : null,
+                    addedAt: new Date().toISOString()
+                };
+
+                // Update spouse relationship
+                if (member.spouseId) {
+                    const spouse = this.treeMembers.find(m => m.id === baseNodeId);
+                    if (spouse) {
+                        spouse.spouseId = member.id;
+                    }
+                }
+
+                this.treeMembers.push(member);
+                this.saveData();
+                this.closeAddFamilyMember();
+                this.showHome();
+            }
+
+            resetFamilyMemberForm() {
+                document.getElementById('familyMemberName').value = '';
+                document.getElementById('familyMemberRelationship').value = '';
+                document.getElementById('baseNodeSelect').value = '';
+                document.getElementById('familyMemberBirthYear').value = '';
+                document.getElementById('familyMemberDeceased').checked = false;
+                document.getElementById('familyMemberPhotoPreview').style.display = 'none';
+                document.getElementById('familyMemberPhotoPlaceholder').style.display = 'flex';
+                this.currentFamilyMemberPhoto = null;
+            }
+
+            formatRelationshipType(relationship) {
+                const formatted = {
+                    'father': 'Father',
+                    'mother': 'Mother',
+                    'husband': 'Husband',
+                    'wife': 'Wife',
+                    'son': 'Son',
+                    'daughter': 'Daughter',
+                    'brother': 'Brother',
+                    'sister': 'Sister'
+                };
+                return formatted[relationship] || relationship;
+            }
+
+            showContextMenu(event, nodeId) {
+                event.preventDefault();
+                this.contextNode = nodeId;
+                
+                const menu = document.getElementById('contextMenu');
+                menu.style.left = event.pageX + 'px';
+                menu.style.top = event.pageY + 'px';
+                menu.classList.add('active');
+            }
+
+            contextAction(action) {
+                const node = this.treeMembers.find(m => m.id === this.contextNode);
+                if (!node) return;
+
+                switch(action) {
+                    case 'addChild':
+                        this.showAddChild(this.contextNode);
+                        break;
+                    case 'addSpouse':
+                        this.showAddSpouse(this.contextNode);
+                        break;
+                    case 'makeBase':
+                        this.baseNodeId = this.contextNode;
+                        this.showHome();
+                        break;
+                    case 'remove':
+                        if (confirm(`Remove ${node.name} from family tree?`)) {
+                            this.treeMembers = this.treeMembers.filter(m => m.id !== this.contextNode);
+                            this.saveData();
+                            this.showHome();
+                        }
+                        break;
+                }
+            }
+
+            // Post methods
+            showCreatePost() {
+                document.getElementById('createPostModal').classList.add('active');
+            }
+
+            closeCreatePost() {
+                document.getElementById('createPostModal').classList.remove('active');
+                document.getElementById('postContent').value = '';
+                document.getElementById('postPhotoPreview').classList.add('hidden');
+                this.currentPostPhoto = null;
+            }
+
+            handlePostPhotoUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        this.currentPostPhoto = event.target.result;
+                        document.getElementById('postPhotoImg').src = this.currentPostPhoto;
+                        document.getElementById('postPhotoPreview').classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            publishPost() {
+                const content = document.getElementById('postContent').value.trim();
+                
+                if (!content && !this.currentPostPhoto) {
+                    alert('Please write something or add a photo');
+                    return;
+                }
+
+                const post = {
+                    id: 'post_' + Date.now(),
+                    userId: this.currentUser.id,
+                    userName: this.currentUser.name,
+                    userAvatar: this.currentUser.avatar,
+                    content,
+                    photo: this.currentPostPhoto,
+                    likes: 0,
+                    timestamp: new Date().toISOString()
+                };
+
+                this.posts.unshift(post);
+                this.saveData();
+                this.closeCreatePost();
+                this.renderPosts();
+            }
+
+            renderPosts() {
+                const container = document.getElementById('postsContainer');
+                
+                if (this.posts.length === 0) {
+                    container.innerHTML = `
+                        <div class="card" style="text-align: center; padding: 40px; color: var(--text-light);">
+                            No posts yet. Share your first update!
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.posts.map(post => this.renderPost(post)).join('');
+            }
+
+            renderPost(post) {
+                const timeAgo = this.getTimeAgo(post.timestamp);
+                
+                return `
+                    <div class="card">
+                        <div class="post-header">
+                            <img src="${post.userAvatar}" class="avatar">
+                            <div>
+                                <h4>${post.userName}</h4>
+                                <div class="post-time">${timeAgo}</div>
+                            </div>
+                        </div>
+                        ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
+                        ${post.photo ? `<img src="${post.photo}" class="post-image">` : ''}
+                        <div class="post-buttons">
+                            <button class="post-btn">👍 Like</button>
+                            <button class="post-btn">💬 Comment</button>
+                            <button class="post-btn">↗️ Share</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderProfile() {
+                document.getElementById('profileName').textContent = this.currentUser.name;
+                document.getElementById('profileAvatar').src = this.currentUser.avatar;
+                document.getElementById('familyCount').textContent = this.treeMembers.length;
+                document.getElementById('postCount').textContent = this.posts.filter(p => p.userId === this.currentUser.id).length;
+
+                const userPosts = this.posts.filter(p => p.userId === this.currentUser.id);
+                document.getElementById('profilePosts').innerHTML = userPosts.map(p => this.renderPost(p)).join('');
+            }
+
+            handleProfilePhotoUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        this.currentUser.avatar = event.target.result;
+                        localStorage.setItem('rootsCurrentUser', JSON.stringify(this.currentUser));
+                        document.getElementById('navAvatar').src = this.currentUser.avatar;
+                        document.getElementById('profileAvatar').src = this.currentUser.avatar;
+                        
+                        // Update in tree
+                        const treeMember = this.treeMembers.find(m => m.userId === this.currentUser.id);
+                        if (treeMember) {
+                            treeMember.avatar = this.currentUser.avatar;
+                            this.saveData();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            uploadProfilePhoto() {
+                document.getElementById('profilePhotoInput').click();
             }
 
             zoomIn() {
                 this.zoomLevel = Math.min(this.zoomLevel + 0.1, 2);
-                document.getElementById('treeView').style.transform = `scale(${this.zoomLevel})`;
+                document.getElementById('fullTreeView').style.transform = `scale(${this.zoomLevel})`;
             }
 
             zoomOut() {
                 this.zoomLevel = Math.max(this.zoomLevel - 0.1, 0.5);
-                document.getElementById('treeView').style.transform = `scale(${this.zoomLevel})`;
+                document.getElementById('fullTreeView').style.transform = `scale(${this.zoomLevel})`;
             }
 
             resetZoom() {
                 this.zoomLevel = 1;
-                document.getElementById('treeView').style.transform = `scale(${this.zoomLevel})`;
+                document.getElementById('fullTreeView').style.transform = `scale(1)`;
             }
 
-            showShareModal() {
-                document.getElementById('shareModal').classList.add('active');
+            centerTree() {
+                document.getElementById('fullTreeView').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
 
-            closeShareModal() {
-                document.getElementById('shareModal').classList.remove('active');
+            getTimeAgo(timestamp) {
+                const now = new Date();
+                const posted = new Date(timestamp);
+                const seconds = Math.floor((now - posted) / 1000);
+
+                if (seconds < 60) return 'Just now';
+                if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+                if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+                return Math.floor(seconds / 86400) + 'd ago';
             }
 
-            shareToFacebook() {
-                FB.ui({
-                    method: 'share',
-                    href: window.location.href,
-                    quote: `Check out my family tree on FamilyTree Connect! Join me to build our family history together. 🌳👨‍👩‍👧‍👦`,
-                }, function(response){
-                    if (response && !response.error_message) {
-                        alert('Successfully shared to Facebook!');
-                    }
-                });
-                this.closeShareModal();
+            getDefaultAvatar(name) {
+                return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=2d2d2d&color=fff&bold=true`;
             }
 
-            shareToMessenger() {
-                FB.ui({
-                    method: 'send',
-                    link: window.location.href,
-                }, function(response){
-                    if (response && !response.error_message) {
-                        alert('Sent via Messenger!');
-                    }
-                });
-                this.closeShareModal();
+            saveData() {
+                localStorage.setItem('rootsUsers', JSON.stringify(this.users));
+                localStorage.setItem('rootsPosts', JSON.stringify(this.posts));
+                localStorage.setItem('rootsTreeMembers', JSON.stringify(this.treeMembers));
             }
 
-            inviteFriends() {
-                FB.ui({
-                    method: 'apprequests',
-                    message: 'Join me on FamilyTree Connect to build our family tree together!',
-                }, function(response){
-                    if (response && response.request) {
-                        alert('Invitations sent!');
-                    }
-                });
-                this.closeShareModal();
-            }
-
-            copyShareLink() {
-                const link = window.location.href;
-                navigator.clipboard.writeText(link).then(() => {
-                    alert('Link copied to clipboard!');
-                });
-                this.closeShareModal();
-            }
-
-            exportTree() {
-                const dataStr = JSON.stringify({
-                    user: this.currentUser,
-                    members: this.members,
-                    exportedAt: new Date().toISOString()
-                }, null, 2);
-                
-                const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'family-tree-export.json';
-                link.click();
-                URL.revokeObjectURL(url);
-            }
-
-            logout() {
-                if (confirm('Are you sure you want to logout?')) {
-                    FB.logout(() => {
-                        this.currentUser = null;
-                        document.getElementById('loginScreen').style.display = 'flex';
-                        document.getElementById('appContainer').classList.remove('active');
-                    });
-                }
-            }
-
-            saveToStorage() {
-                const data = {
-                    user: this.currentUser,
-                    members: this.members
-                };
-                localStorage.setItem('familyTreeData', JSON.stringify(data));
-            }
-
-            loadFromStorage() {
-                const data = localStorage.getItem('familyTreeData');
-                if (data) {
-                    const parsed = JSON.parse(data);
-                    this.members = parsed.members || [];
-                }
+            loadData() {
+                this.users = JSON.parse(localStorage.getItem('rootsUsers') || '[]');
+                this.posts = JSON.parse(localStorage.getItem('rootsPosts') || '[]');
+                this.treeMembers = JSON.parse(localStorage.getItem('rootsTreeMembers') || '[]');
             }
         }
 
         // Initialize app
-        const app = new FamilyTreeApp();
+        const app = new RootsApp();
     </script>
 </body>
 </html>
