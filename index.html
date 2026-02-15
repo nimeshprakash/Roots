@@ -729,6 +729,64 @@
             margin-top: 8px;
         }
 
+        /* Descendant Tree Styles */
+        .descendant-tree {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100%;
+        }
+
+        .tree-level {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 100px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        .tree-person-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .tree-person-with-spouse {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .tree-person-with-spouse::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background: #4CAF50;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 40px;
+            background: var(--border);
+            margin: 0 auto;
+        }
+
+        .children-container {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            position: relative;
+        }
+
         /* Make tree views scrollable */
         .full-tree-view {
             overflow: auto;
@@ -872,6 +930,15 @@
                             <div class="logo-section">
                                 <h1>🌳 Roots</h1>
                                 <p>Your family's social network</p>
+                            </div>
+
+                            <div style="background: #e3f2fd; border: 1px solid #2196F3; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                                <div style="font-weight: 600; color: #1976D2; margin-bottom: 8px;">🎯 Demo Account</div>
+                                <div style="font-size: 14px; color: #1565C0;">
+                                    <strong>Email:</strong> demo@roots.com<br>
+                                    <strong>Password:</strong> demo123<br>
+                                    <em style="font-size: 12px; color: #666; margin-top: 4px; display: block;">Full family tree with 3 generations included!</em>
+                                </div>
                             </div>
                             
                             <div id="loginForm">
@@ -1018,15 +1085,12 @@
                                 <label>View Type:</label>
                                 <button class="control-btn" id="mindMapViewBtn" onclick="app.setTreeViewType('mindmap')" style="background: var(--primary); color: white;">Mind Map</button>
                                 <button class="control-btn" id="generationalViewBtn" onclick="app.setTreeViewType('generational')">Multigenerational</button>
+                                <button class="control-btn" id="descendantViewBtn" onclick="app.setTreeViewType('descendant')">Descendant Tree</button>
                                 <span style="width: 20px;"></span>
                                 <label>View as:</label>
                                 <select id="viewAsSelect" class="view-as-selector" onchange="app.changeViewingPerspective()">
                                     <option value="${this.currentUser.id}">Myself</option>
                                 </select>
-                                <span style="width: 20px;"></span>
-                                <button class="control-btn" onclick="app.zoomIn()">🔍+ Zoom In</button>
-                                <button class="control-btn" onclick="app.zoomOut()">🔍- Zoom Out</button>
-                                <button class="control-btn" onclick="app.resetZoom()">↺ Reset</button>
                             </div>
                             <div class="tree-view-container" id="fullTreeView"></div>
                         </div>
@@ -1353,17 +1417,24 @@
             setTreeViewType(type) {
                 this.treeViewType = type;
                 
-                // Update button styles
+                // Reset all button styles
+                document.getElementById('mindMapViewBtn').style.background = 'var(--bg)';
+                document.getElementById('mindMapViewBtn').style.color = 'var(--text)';
+                document.getElementById('generationalViewBtn').style.background = 'var(--bg)';
+                document.getElementById('generationalViewBtn').style.color = 'var(--text)';
+                document.getElementById('descendantViewBtn').style.background = 'var(--bg)';
+                document.getElementById('descendantViewBtn').style.color = 'var(--text)';
+                
+                // Highlight active button
                 if (type === 'mindmap') {
                     document.getElementById('mindMapViewBtn').style.background = 'var(--primary)';
                     document.getElementById('mindMapViewBtn').style.color = 'white';
-                    document.getElementById('generationalViewBtn').style.background = 'var(--bg)';
-                    document.getElementById('generationalViewBtn').style.color = 'var(--text)';
-                } else {
+                } else if (type === 'generational') {
                     document.getElementById('generationalViewBtn').style.background = 'var(--primary)';
                     document.getElementById('generationalViewBtn').style.color = 'white';
-                    document.getElementById('mindMapViewBtn').style.background = 'var(--bg)';
-                    document.getElementById('mindMapViewBtn').style.color = 'var(--text)';
+                } else if (type === 'descendant') {
+                    document.getElementById('descendantViewBtn').style.background = 'var(--primary)';
+                    document.getElementById('descendantViewBtn').style.color = 'white';
                 }
                 
                 this.renderTree('fullTreeView');
@@ -1410,8 +1481,14 @@
                 }
 
                 // Check if we're in the fullTreeView and what view type to use
-                if (containerId === 'fullTreeView' && this.treeViewType === 'generational') {
-                    this.renderGenerationalTree(containerId);
+                if (containerId === 'fullTreeView') {
+                    if (this.treeViewType === 'generational') {
+                        this.renderGenerationalTree(containerId);
+                    } else if (this.treeViewType === 'descendant') {
+                        this.renderDescendantTree(containerId);
+                    } else {
+                        this.renderMindMapTree(containerId);
+                    }
                 } else {
                     this.renderMindMapTree(containerId);
                 }
@@ -1764,6 +1841,100 @@
                         <img src="${member.avatar}" class="tree-node-avatar" alt="${member.name}">
                         <div class="tree-node-name-always">${member.name}</div>
                         ${relationLabel && relationLabel !== 'You' ? `<div class="tree-node-relation" style="font-size: 11px; color: var(--secondary); margin-top: 4px;">${relationLabel}</div>` : ''}
+                    </div>
+                `;
+            }
+
+            renderDescendantTree(containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                // Find the viewing person (root of descendant tree)
+                const viewingPerson = this.treeMembers.find(m => 
+                    m.userId === this.viewingAsUserId || m.id === this.viewingAsUserId
+                );
+
+                if (!viewingPerson) return;
+
+                let html = '<div class="descendant-tree">';
+                
+                // Render the root person with spouse
+                html += this.renderDescendantLevel([viewingPerson], 0);
+                
+                html += '</div>';
+                container.innerHTML = html;
+            }
+
+            renderDescendantLevel(people, level) {
+                if (!people || people.length === 0) return '';
+
+                let html = '<div class="tree-level">';
+                
+                people.forEach(person => {
+                    const viewingPerson = this.treeMembers.find(m => 
+                        m.userId === this.viewingAsUserId || m.id === this.viewingAsUserId
+                    );
+                    const relationLabel = this.getRelationshipLabel(viewingPerson, person);
+                    
+                    html += '<div class="tree-person-group">';
+                    html += '<div class="tree-person-with-spouse">';
+                    
+                    // Render person
+                    html += this.renderDescendantNode(person, person.id === viewingPerson?.id, relationLabel);
+                    
+                    // Render spouse(s)
+                    if (person.spouses && person.spouses.length > 0) {
+                        person.spouses.forEach(spouseId => {
+                            const spouse = this.treeMembers.find(m => m.id === spouseId);
+                            if (spouse) {
+                                const spouseRelation = this.getRelationshipLabel(viewingPerson, spouse);
+                                html += this.renderDescendantNode(spouse, false, spouseRelation);
+                            }
+                        });
+                    }
+                    
+                    html += '</div>'; // Close tree-person-with-spouse
+                    
+                    // Get children
+                    const children = [];
+                    if (person.children && person.children.length > 0) {
+                        person.children.forEach(childId => {
+                            const child = this.treeMembers.find(m => m.id === childId);
+                            if (child) {
+                                children.push(child);
+                            }
+                        });
+                    }
+                    
+                    // Render children recursively
+                    if (children.length > 0) {
+                        html += '<div class="connector-line"></div>';
+                        html += '<div class="children-container">';
+                        children.forEach(child => {
+                            html += this.renderDescendantLevel([child], level + 1);
+                        });
+                        html += '</div>';
+                    }
+                    
+                    html += '</div>'; // Close tree-person-group
+                });
+                
+                html += '</div>'; // Close tree-level
+                return html;
+            }
+
+            renderDescendantNode(member, isCurrentUser, relationLabel) {
+                const deceasedClass = member.isDeceased ? 'deceased' : '';
+                const currentUserClass = isCurrentUser ? 'current-user' : '';
+                
+                return `
+                    <div class="tree-node ${deceasedClass} ${currentUserClass}" 
+                         data-id="${member.id}"
+                         oncontextmenu="app.showContextMenu(event, '${member.id}'); return false;"
+                         style="padding: 10px;">
+                        <img src="${member.avatar}" class="tree-node-avatar" alt="${member.name}">
+                        <div class="tree-node-name-always">${member.name}</div>
+                        ${relationLabel ? `<div class="tree-node-relation" style="font-size: 11px; color: var(--secondary); margin-top: 4px;">${relationLabel}</div>` : ''}
                     </div>
                 `;
             }
@@ -2445,6 +2616,318 @@
                 this.users = JSON.parse(localStorage.getItem('rootsUsers') || '[]');
                 this.posts = JSON.parse(localStorage.getItem('rootsPosts') || '[]');
                 this.treeMembers = JSON.parse(localStorage.getItem('rootsTreeMembers') || '[]');
+                
+                // Initialize demo data if no users exist
+                if (this.users.length === 0) {
+                    this.initializeDemoData();
+                }
+            }
+
+            initializeDemoData() {
+                // Create demo user
+                const demoUser = {
+                    id: 'demo_user',
+                    name: 'John Smith',
+                    email: 'demo@roots.com',
+                    password: 'demo123',
+                    avatar: this.getDefaultAvatar('John Smith'),
+                    joinedAt: new Date().toISOString()
+                };
+                this.users.push(demoUser);
+
+                // Create complete family tree
+                const familyMembers = [
+                    // John Smith (You) - Generation 0
+                    {
+                        id: 'john',
+                        userId: 'demo_user',
+                        name: 'John Smith',
+                        avatar: this.getDefaultAvatar('John Smith'),
+                        isDeceased: false,
+                        generation: 0,
+                        parents: ['robert', 'mary'],
+                        spouses: ['sarah'],
+                        children: ['emma', 'michael'],
+                        siblings: ['jennifer'],
+                        addedAt: new Date().toISOString()
+                    },
+                    // John's Wife
+                    {
+                        id: 'sarah',
+                        userId: null,
+                        name: 'Sarah Smith',
+                        avatar: this.getDefaultAvatar('Sarah Smith'),
+                        isDeceased: false,
+                        generation: 0,
+                        parents: ['david_jones', 'linda_jones'],
+                        spouses: ['john'],
+                        children: ['emma', 'michael'],
+                        siblings: ['tom_jones'],
+                        addedAt: new Date().toISOString()
+                    },
+                    // John's Parents - Generation -1
+                    {
+                        id: 'robert',
+                        userId: null,
+                        name: 'Robert Smith',
+                        avatar: this.getDefaultAvatar('Robert Smith'),
+                        isDeceased: false,
+                        generation: -1,
+                        parents: ['william', 'elizabeth'],
+                        spouses: ['mary'],
+                        children: ['john', 'jennifer'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'mary',
+                        userId: null,
+                        name: 'Mary Smith',
+                        avatar: this.getDefaultAvatar('Mary Smith'),
+                        isDeceased: false,
+                        generation: -1,
+                        parents: ['james_brown', 'patricia_brown'],
+                        spouses: ['robert'],
+                        children: ['john', 'jennifer'],
+                        siblings: ['uncle_mike'],
+                        addedAt: new Date().toISOString()
+                    },
+                    // Sarah's Parents - Generation -1
+                    {
+                        id: 'david_jones',
+                        userId: null,
+                        name: 'David Jones',
+                        avatar: this.getDefaultAvatar('David Jones'),
+                        isDeceased: false,
+                        generation: -1,
+                        parents: [],
+                        spouses: ['linda_jones'],
+                        children: ['sarah', 'tom_jones'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'linda_jones',
+                        userId: null,
+                        name: 'Linda Jones',
+                        avatar: this.getDefaultAvatar('Linda Jones'),
+                        isDeceased: false,
+                        generation: -1,
+                        parents: [],
+                        spouses: ['david_jones'],
+                        children: ['sarah', 'tom_jones'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    // John's Grandparents - Generation -2
+                    {
+                        id: 'william',
+                        userId: null,
+                        name: 'William Smith',
+                        avatar: this.getDefaultAvatar('William Smith'),
+                        isDeceased: true,
+                        generation: -2,
+                        parents: [],
+                        spouses: ['elizabeth'],
+                        children: ['robert'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'elizabeth',
+                        userId: null,
+                        name: 'Elizabeth Smith',
+                        avatar: this.getDefaultAvatar('Elizabeth Smith'),
+                        isDeceased: true,
+                        generation: -2,
+                        parents: [],
+                        spouses: ['william'],
+                        children: ['robert'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'james_brown',
+                        userId: null,
+                        name: 'James Brown',
+                        avatar: this.getDefaultAvatar('James Brown'),
+                        isDeceased: false,
+                        generation: -2,
+                        parents: [],
+                        spouses: ['patricia_brown'],
+                        children: ['mary', 'uncle_mike'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'patricia_brown',
+                        userId: null,
+                        name: 'Patricia Brown',
+                        avatar: this.getDefaultAvatar('Patricia Brown'),
+                        isDeceased: false,
+                        generation: -2,
+                        parents: [],
+                        spouses: ['james_brown'],
+                        children: ['mary', 'uncle_mike'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    // John's Sibling
+                    {
+                        id: 'jennifer',
+                        userId: null,
+                        name: 'Jennifer Smith',
+                        avatar: this.getDefaultAvatar('Jennifer Smith'),
+                        isDeceased: false,
+                        generation: 0,
+                        parents: ['robert', 'mary'],
+                        spouses: ['mark'],
+                        children: ['nephew_alex'],
+                        siblings: ['john'],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'mark',
+                        userId: null,
+                        name: 'Mark Johnson',
+                        avatar: this.getDefaultAvatar('Mark Johnson'),
+                        isDeceased: false,
+                        generation: 0,
+                        parents: [],
+                        spouses: ['jennifer'],
+                        children: ['nephew_alex'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    // Uncle from mother's side
+                    {
+                        id: 'uncle_mike',
+                        userId: null,
+                        name: 'Mike Brown',
+                        avatar: this.getDefaultAvatar('Mike Brown'),
+                        isDeceased: false,
+                        generation: -1,
+                        parents: ['james_brown', 'patricia_brown'],
+                        spouses: ['aunt_susan'],
+                        children: ['cousin_jake'],
+                        siblings: ['mary'],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'aunt_susan',
+                        userId: null,
+                        name: 'Susan Brown',
+                        avatar: this.getDefaultAvatar('Susan Brown'),
+                        isDeceased: false,
+                        generation: -1,
+                        parents: [],
+                        spouses: ['uncle_mike'],
+                        children: ['cousin_jake'],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    // Sarah's Brother
+                    {
+                        id: 'tom_jones',
+                        userId: null,
+                        name: 'Tom Jones',
+                        avatar: this.getDefaultAvatar('Tom Jones'),
+                        isDeceased: false,
+                        generation: 0,
+                        parents: ['david_jones', 'linda_jones'],
+                        spouses: [],
+                        children: [],
+                        siblings: ['sarah'],
+                        addedAt: new Date().toISOString()
+                    },
+                    // John's Children - Generation 1
+                    {
+                        id: 'emma',
+                        userId: null,
+                        name: 'Emma Smith',
+                        avatar: this.getDefaultAvatar('Emma Smith'),
+                        isDeceased: false,
+                        generation: 1,
+                        parents: ['john', 'sarah'],
+                        spouses: [],
+                        children: [],
+                        siblings: ['michael'],
+                        addedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'michael',
+                        userId: null,
+                        name: 'Michael Smith',
+                        avatar: this.getDefaultAvatar('Michael Smith'),
+                        isDeceased: false,
+                        generation: 1,
+                        parents: ['john', 'sarah'],
+                        spouses: [],
+                        children: [],
+                        siblings: ['emma'],
+                        addedAt: new Date().toISOString()
+                    },
+                    // Nephew
+                    {
+                        id: 'nephew_alex',
+                        userId: null,
+                        name: 'Alex Johnson',
+                        avatar: this.getDefaultAvatar('Alex Johnson'),
+                        isDeceased: false,
+                        generation: 1,
+                        parents: ['jennifer', 'mark'],
+                        spouses: [],
+                        children: [],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    },
+                    // Cousin
+                    {
+                        id: 'cousin_jake',
+                        userId: null,
+                        name: 'Jake Brown',
+                        avatar: this.getDefaultAvatar('Jake Brown'),
+                        isDeceased: false,
+                        generation: 0,
+                        parents: ['uncle_mike', 'aunt_susan'],
+                        spouses: [],
+                        children: [],
+                        siblings: [],
+                        addedAt: new Date().toISOString()
+                    }
+                ];
+
+                this.treeMembers = familyMembers;
+
+                // Create demo posts
+                this.posts = [
+                    {
+                        id: 'post_1',
+                        userId: 'demo_user',
+                        userName: 'John Smith',
+                        userAvatar: this.getDefaultAvatar('John Smith'),
+                        content: 'Just created our family tree! So excited to document our family history. 🌳',
+                        photo: null,
+                        likes: [],
+                        comments: [],
+                        shares: 0,
+                        timestamp: new Date(Date.now() - 86400000).toISOString()
+                    },
+                    {
+                        id: 'post_2',
+                        userId: 'demo_user',
+                        userName: 'John Smith',
+                        userAvatar: this.getDefaultAvatar('John Smith'),
+                        content: 'Family reunion this weekend! Can\'t wait to see everyone. 👨‍👩‍👧‍👦',
+                        photo: null,
+                        likes: [],
+                        comments: [],
+                        shares: 0,
+                        timestamp: new Date(Date.now() - 172800000).toISOString()
+                    }
+                ];
+
+                this.saveData();
             }
         }
 
