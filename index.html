@@ -242,19 +242,20 @@
 
         /* Tree Container */
         .tree-view-container {
+            flex: 1;
             width: 100%;
             height: 100%;
             overflow: auto;
-            padding: 20px;
             position: relative;
+            background: var(--bg);
         }
 
         .mind-map-tree {
             position: relative;
             width: 100%;
             height: 100%;
-            min-width: 800px;
-            min-height: 600px;
+            min-width: 1400px;
+            min-height: 900px;
         }
 
         /* SVG Lines */
@@ -620,11 +621,12 @@
 
         /* Full Tree View */
         .full-tree-view {
-            padding: 40px;
+            padding: 20px;
             min-height: calc(100vh - 60px);
             overflow: auto;
             display: flex;
             flex-direction: column;
+            background: var(--bg);
         }
 
         .tree-controls {
@@ -633,6 +635,10 @@
             margin-bottom: 30px;
             justify-content: center;
             flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .control-btn {
@@ -844,9 +850,9 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            margin-bottom: 150px;
+            margin-bottom: 180px;
             position: relative;
-            gap: 100px;
+            gap: 150px;
             flex-wrap: nowrap;
         }
 
@@ -855,15 +861,15 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            min-width: 180px;
+            min-width: 220px;
         }
 
         .tree-couple-row {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             align-items: center;
             justify-content: center;
-            margin-bottom: 60px;
+            margin-bottom: 70px;
             position: relative;
         }
 
@@ -873,7 +879,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px;
+            width: 50px;
             height: 3px;
             background: #4CAF50;
             z-index: 0;
@@ -881,21 +887,21 @@
 
         .tree-vertical-line {
             width: 3px;
-            height: 50px;
+            height: 60px;
             background: var(--border);
             margin: 0 auto;
         }
 
         .tree-children-row {
             display: flex;
-            gap: 80px;
+            gap: 120px;
             justify-content: center;
             position: relative;
         }
 
         .tree-horizontal-connector {
             position: absolute;
-            top: -50px;
+            top: -60px;
             height: 3px;
             background: var(--border);
             z-index: 0;
@@ -903,9 +909,9 @@
 
         .tree-child-connector {
             width: 3px;
-            height: 50px;
+            height: 60px;
             background: var(--border);
-            margin: 0 auto -50px;
+            margin: 0 auto -60px;
         }
 
         .generation-label-traditional {
@@ -1712,18 +1718,20 @@
                     maxY = Math.max(maxY, pos.y);
                 });
 
-                // Add padding
-                const padding = 100;
+                // Add generous padding
+                const padding = 200;
                 minX -= padding;
                 minY -= padding;
                 maxX += padding;
                 maxY += padding;
 
-                const width = Math.max(800, maxX - minX);
-                const height = Math.max(600, maxY - minY);
+                const width = Math.max(1400, maxX - minX);
+                const height = Math.max(900, maxY - minY);
 
                 // Create curved SVG lines with dynamic viewBox
-                let svg = `<svg class="tree-svg" viewBox="${minX} ${minY} ${width} ${height}" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; min-width: ${width}px; min-height: ${height}px;">`;
+                let svg = `<svg class="tree-svg" viewBox="${minX} ${minY} ${width} ${height}" 
+                          preserveAspectRatio="xMidYMid meet" 
+                          style="width: 100%; height: 100%; min-width: ${width}px; min-height: ${height}px; position: absolute; top: 0; left: 0;">`;
                 
                 console.log('Drawing connections for', this.treeMembers.length, 'members');
                 
@@ -1775,7 +1783,7 @@
                 svg += '</svg>';
 
                 // Create nodes
-                let html = '<div class="mind-map-tree">' + svg + '<div class="tree-nodes-container">';
+                let html = '<div class="mind-map-tree" style="position: relative; width: ' + width + 'px; height: ' + height + 'px;">' + svg + '<div class="tree-nodes-container" style="position: relative; width: 100%; height: 100%;">';
                 
                 this.treeMembers.forEach(member => {
                     if (positions[member.id]) {
@@ -2059,7 +2067,7 @@
                             
                             // Add horizontal connector if multiple children
                             if (coupleChildren.length > 1) {
-                                const connectorWidth = (coupleChildren.length - 1) * 80 + 60;
+                                const connectorWidth = (coupleChildren.length - 1) * 120 + 80;
                                 html += `<div class="tree-horizontal-connector" style="width: ${connectorWidth}px; left: 50%; transform: translateX(-50%);"></div>`;
                             }
                             
@@ -2492,10 +2500,10 @@
 
             calculateTreePositions(centerPerson) {
                 const positions = {};
-                const centerX = 400;
-                const centerY = 300;
-                const horizontalSpacing = 180; // Increased spacing
-                const verticalSpacing = 160; // Increased spacing
+                const centerX = 700;
+                const centerY = 450;
+                const horizontalSpacing = 250; // Increased spacing
+                const verticalSpacing = 220; // Increased spacing
                 
                 // Place center person
                 positions[centerPerson.id] = { x: centerX, y: centerY };
@@ -2537,11 +2545,11 @@
                 // Place siblings to the side with vertical distribution
                 if (centerPerson.siblings && centerPerson.siblings.length > 0) {
                     const siblingCount = centerPerson.siblings.length;
-                    const startY = centerY - ((siblingCount - 1) * 100 / 2);
+                    const startY = centerY - ((siblingCount - 1) * 120 / 2);
                     centerPerson.siblings.forEach((siblingId, i) => {
                         positions[siblingId] = {
-                            x: centerX - horizontalSpacing - 80,
-                            y: startY + (i * 100)
+                            x: centerX - horizontalSpacing - 100,
+                            y: startY + (i * 120)
                         };
                     });
                 }
@@ -2555,13 +2563,13 @@
                             // Place near related person with offset
                             const related = positions[relatedId];
                             let newX = related.x + horizontalSpacing;
-                            let newY = related.y + 100;
+                            let newY = related.y + 120;
                             
                             // Check for collisions and adjust
                             let attempts = 0;
                             while (this.checkCollision(newX, newY, positions) && attempts < 20) {
-                                newX += 50;
-                                newY += 50;
+                                newX += 80;
+                                newY += 80;
                                 attempts++;
                             }
                             
@@ -2570,8 +2578,8 @@
                             // Default positioning in grid
                             const count = Object.keys(positions).length;
                             positions[member.id] = {
-                                x: 100 + (count % 6) * horizontalSpacing,
-                                y: 100 + Math.floor(count / 6) * verticalSpacing
+                                x: 150 + (count % 5) * horizontalSpacing,
+                                y: 150 + Math.floor(count / 5) * verticalSpacing
                             };
                         }
                     }
@@ -2581,7 +2589,7 @@
             }
 
             checkCollision(x, y, positions) {
-                const minDistance = 80; // Minimum distance between nodes
+                const minDistance = 120; // Minimum distance between nodes
                 for (let pos of Object.values(positions)) {
                     const distance = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
                     if (distance < minDistance) {
